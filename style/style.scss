@@ -1,0 +1,85 @@
+$background-color: black;
+$font-color: white;
+$card-background: #f1f1f1;
+$accent-color: purple;
+
+html {
+  position: relative;
+  background-color: $background-color;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+
+  & > * {
+    color: $font-color;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+body {
+  background-color: $background-color;
+}
+
+.content {
+  margin: auto;
+  position: relative;
+  width: 50%;
+  text-align: center;
+  top: 150px;
+
+  #search-box {
+    position: relative;
+    border-radius: 40px;
+    height: 32px;
+    width: 80%;
+    font-size: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+    border-width: 1px;
+    border-color: $accent-color;
+    background-color: $card-background;
+
+    &:focus {
+      background-color: $font-color;
+    }
+  }
+}
+
+.time-container {
+  position: absolute;
+  right: 0%;
+  width: fit-content;
+
+  & > #time {
+    color: $font-color;
+    font-size: 2.5em;
+  }
+}
+
+.favs {
+  position: relative;
+  margin: auto;
+  top: 300px;
+  color: $font-color;
+  width: 80%;
+  text-align: center;
+
+  & > .fav {
+    display: inline-block;
+    color: black;
+    padding: 1em;
+    font-size: 20pt;
+    background-color: $card-background;
+    padding-bottom: 3em;
+    padding: 1em;
+    margin: 5px;
+
+    &:hover {
+      border-style: solid;
+      border-color: $accent-color;
+      border-width: 4px;
+      margin: 1px;
+      cursor: pointer;
+    }
+  }  
+}

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+      "baseUrl": "./",
+      "newLine": "lf",
+      "module": "UMD",
+      "noImplicitAny": true,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "sourceMap": false,
+      "strict": true,
+      "declaration": false,
+  },
+  "include": ["**/*"]
+}
