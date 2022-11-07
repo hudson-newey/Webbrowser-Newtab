@@ -1,3 +1,22 @@
+var search = function () {
+    var _a;
+    var searchTerm = (_a = document.getElementById("search-box")) === null || _a === void 0 ? void 0 : _a.value;
+    var searchEngine = "https://search.brave.com/search?q=";
+    if (searchTerm !== null) {
+        if (searchTerm.includes("://")) {
+            document.location.href = searchTerm;
+        }
+        else {
+            document.location.href = "" + searchEngine + searchTerm;
+        }
+    }
+};
+var shouldSearch = function (event) {
+    var key = event.keyCode || event.which;
+    if (key == 13) {
+        search();
+    }
+};
 var updateTime = function () {
     var timeElement = document.getElementById("time");
     if (timeElement !== null) {

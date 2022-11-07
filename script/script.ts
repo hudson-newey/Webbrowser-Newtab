@@ -1,3 +1,23 @@
+let search = () => {
+  const searchTerm: string | null = (document.getElementById("search-box") as HTMLInputElement)?.value;
+  const searchEngine: string = "https://search.brave.com/search?q=";
+
+  if (searchTerm !== null) {
+    if (searchTerm.includes("://")) {
+      document.location.href = searchTerm;
+    } else {
+      document.location.href = `${searchEngine}${searchTerm}`;
+    }
+  }
+}
+
+let shouldSearch = (event: KeyboardEvent) => {
+  const key=event.keyCode || event.which;
+  if (key==13){
+    search();
+  }
+}
+
 let updateTime = () => {
   let timeElement: HTMLElement | null = document.getElementById("time");
   if (timeElement !== null) {

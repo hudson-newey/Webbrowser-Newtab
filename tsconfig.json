@@ -3,6 +3,7 @@
       "baseUrl": "./",
       "newLine": "lf",
       "module": "UMD",
+      "lib": ["es2017", "dom"],
       "noImplicitAny": true,
       "removeComments": true,
       "preserveConstEnums": true,
