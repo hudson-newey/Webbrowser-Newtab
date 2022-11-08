@@ -1,7 +1,16 @@
 $background-color: black;
 $font-color: white;
-$card-background: #f1f1f1;
+$dimmed-font-color: #999;
+$card-background: rgba(100,100,100,0.1);
+$card-background-focused: rgba(100,100,100,0.5);
 $accent-color: purple;
+
+#gradient {
+  position: absolute;
+  width: calc(100% - 8px);
+  height: 100%;
+  top: 0px;
+}
 
 html {
   position: relative;
@@ -29,30 +38,39 @@ body {
 
   #search-box {
     position: relative;
-    border-radius: 40px;
+    border-radius: 8px;
+    color: $font-color;
     height: 32px;
     width: 80%;
     font-size: 32px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: sans-serif;
     padding: 10px;
-    border-width: 1px;
+    border-width: 2px;
     border-color: $accent-color;
     background-color: $card-background;
+    font-weight: lighter;
 
     &:focus {
-      background-color: $font-color;
+      background-color: $card-background-focused;
     }
   }
 }
 
 .time-container {
   position: absolute;
-  right: 0%;
+  left: 20px;
+  top: -10px;
   width: fit-content;
 
   & > #time {
-    color: $font-color;
+    color: $dimmed-font-color;
     font-size: 2.5em;
+
+    &:hover {
+      transition: all 0.15s ease;
+      color: $font-color;
+      cursor: pointer;
+    }
   }
 }
 
@@ -66,20 +84,31 @@ body {
 
   & > .fav {
     display: inline-block;
-    color: black;
+    color: $font-color;
     padding: 1em;
     font-size: 20pt;
     background-color: $card-background;
     padding-bottom: 3em;
     padding: 1em;
-    margin: 5px;
+    margin: 10px;
+    width: 150px;
+    height: 30px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    transform: scale(1);
+    transition: all 0.15s ease;
 
     &:hover {
+      transform: scale(1.1);
       border-style: solid;
       border-color: $accent-color;
       border-width: 4px;
-      margin: 1px;
       cursor: pointer;
+    }
+
+    & > img {
+      width: 20px;
+      height: 20px;
     }
   }  
 }
