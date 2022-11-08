@@ -7,62 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Tab - Grathium Industries</title>
   <link rel="stylesheet" href="./style/dist/style.css">
+  <script src="https://grathium-industries.github.io/lib/jquery.min.js"></script>
 </head>
 
 <body>
-  <div class="time-container">
-    <h1 id="time"></h1>
-  </div>
+  <div id="gradient">
+    <div class="time-container">
+      <h1 id="time"></h1>
+    </div>
 
-  <div class="content">
-    <h1 id="main-title">New Tab</h1>
-    <input
-      id="search-box"
-      class="form-control p-3"
-      type="text"
-      onkeydown="shouldSearch(event);"
-      placeholder="Search the web..."  
-    />
-  </div>
+    <div class="content">
+      <input id="search-box" class="form-control p-3" type="text" onkeydown="shouldSearch(event);"
+        placeholder="Search the web..." autofocus />
+    </div>
 
-  <div class="favs">
-    <a href="https://www.facebook.com/" class="fav">
-      <img width="20" height="20" src="https://www.facebook.com/favicon.ico">
-      Facebook
-    </a>
-    
-    <a href="https://gmail.com/" class="fav">
-      <img width="20" height="20" src="https://mail.google.com/favicon.ico">
-      Gmail
-    </a>
-
-    <a href="https://youtube.com/" class="fav">
-      <img width="20" height="20" src="https://youtube.com/favicon.ico">
-      YouTube
-    </a>
-
-    <a href="https://twitter.com/home" class="fav">
-      <img width="20" height="20" src="https://twitter.com/favicon.ico">
-      Twitter
-    </a>
-
-    <a href="https://www.reddit.com/" class="fav">
-      <img width="20" height="20" src="https://www.reddit.com/favicon.ico">
-      Reddit
-    </a>
-
-    <a href="https://github.com/" class="fav">
-      <img width="20" height="20" src="https://github.com/favicon.ico">
-      GitHub
-    </a>
-
-    <a href="https://www.twitch.tv/" class="fav">
-      <img width="20" height="20" src="https://twitch.tv/favicon.ico">
-      Twitch
-    </a>
+    <div id="card-container" class="favs"></div>
   </div>
 
   <footer>
+    <script async defer src="https://grathium-industries.github.io/static/js/dist/script.js" charset="utf-8"></script>
     <script src="./script/dist/script.js"></script>
   </footer>
 </body>

@@ -1,3 +1,10 @@
+#gradient {
+  position: absolute;
+  width: calc(100% - 8px);
+  height: 100%;
+  top: 0px;
+}
+
 html {
   position: relative;
   background-color: black;
@@ -23,28 +30,36 @@ body {
 }
 .content #search-box {
   position: relative;
-  border-radius: 40px;
+  border-radius: 8px;
+  color: white;
   height: 32px;
   width: 80%;
   font-size: 32px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
   padding: 10px;
-  border-width: 1px;
+  border-width: 2px;
   border-color: purple;
-  background-color: #f1f1f1;
+  background-color: rgba(100, 100, 100, 0.1);
+  font-weight: lighter;
 }
 .content #search-box:focus {
-  background-color: white;
+  background-color: rgba(100, 100, 100, 0.5);
 }
 
 .time-container {
   position: absolute;
-  right: 0%;
+  left: 20px;
+  top: -10px;
   width: fit-content;
 }
 .time-container > #time {
-  color: white;
+  color: #999;
   font-size: 2.5em;
+}
+.time-container > #time:hover {
+  transition: all 0.15s ease;
+  color: white;
+  cursor: pointer;
 }
 
 .favs {
@@ -57,18 +72,28 @@ body {
 }
 .favs > .fav {
   display: inline-block;
-  color: black;
+  color: white;
   padding: 1em;
   font-size: 20pt;
-  background-color: #f1f1f1;
+  background-color: rgba(100, 100, 100, 0.1);
   padding-bottom: 3em;
   padding: 1em;
-  margin: 5px;
+  margin: 10px;
+  width: 150px;
+  height: 30px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  text-decoration: none;
+  transform: scale(1);
+  transition: all 0.15s ease;
 }
 .favs > .fav:hover {
+  transform: scale(1.1);
   border-style: solid;
   border-color: purple;
   border-width: 4px;
-  margin: 1px;
   cursor: pointer;
+}
+.favs > .fav > img {
+  width: 20px;
+  height: 20px;
 }
