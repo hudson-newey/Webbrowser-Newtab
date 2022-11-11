@@ -1,8 +1,9 @@
 #gradient {
   position: absolute;
-  width: calc(100% - 8px);
-  height: 100%;
   top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
 }
 
 html {
@@ -32,20 +33,50 @@ body {
   position: relative;
   border-radius: 8px;
   color: white;
-  height: 32px;
-  width: 80%;
-  font-size: 32px;
+  height: 40px;
+  width: 90%;
+  font-size: 38px;
   font-family: sans-serif;
   padding: 10px;
   border-width: 2px;
-  border-color: purple;
-  background-color: rgba(100, 100, 100, 0.1);
+  border-color: gray;
+  background-color: rgba(120, 120, 120, 0.3);
   font-weight: lighter;
 }
 .content #search-box:focus {
-  background-color: rgba(100, 100, 100, 0.5);
+  background-color: rgba(120, 120, 120, 0.3);
 }
 
+@media only screen and (max-width: 600px) {
+  .content {
+    top: 80px !important;
+    width: 100%;
+  }
+
+  .favs {
+    position: absolute;
+    top: 120px !important;
+  }
+  .favs > .fav {
+    width: 38px !important;
+    height: 38px !important;
+  }
+}
+@keyframes fallAway {
+  0% {
+    transform: rotateZ(0deg);
+    top: 0;
+    opacity: 1;
+  }
+  25% {
+    transform: rotateZ(-15deg);
+  }
+  100% {
+    top: 300px;
+    transform: rotateZ(-5deg);
+    opacity: 0;
+  }
+}
 .time-container {
   position: absolute;
   left: 20px;
@@ -75,25 +106,52 @@ body {
   color: white;
   padding: 1em;
   font-size: 20pt;
-  background-color: rgba(100, 100, 100, 0.1);
+  background-color: rgba(120, 120, 120, 0.1);
   padding-bottom: 3em;
   padding: 1em;
   margin: 10px;
-  width: 150px;
-  height: 30px;
+  width: 187.5px;
+  height: 37.5px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   text-decoration: none;
   transform: scale(1);
   transition: all 0.15s ease;
+  border-radius: 8px;
 }
 .favs > .fav:hover {
   transform: scale(1.1);
   border-style: solid;
   border-color: purple;
+  background-color: rgba(120, 120, 120, 0.3);
   border-width: 4px;
+  border-radius: 16px;
   cursor: pointer;
 }
-.favs > .fav > img {
-  width: 20px;
-  height: 20px;
+.favs > .fav:hover .removeCardButton {
+  display: block;
+}
+.favs > .fav img {
+  width: 30px;
+  height: 30px;
+  word-wrap: anywhere;
+  overflow-y: hidden;
+  max-height: 30px;
+}
+.favs .removeCardButton {
+  display: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  border-style: none;
+  padding: 1px;
+  border-width: 1px;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+.favs .removeCardButton:hover {
+  background-color: rgba(120, 120, 120, 0.3);
+  padding: 0px;
+  border-style: solid;
 }

@@ -1,11 +1,8 @@
 // globals
 const CARD_COOKIE_NAME = "cards";
+const SUPPORTED_PROTOCOLS = ["https://", "http://", "ftp://", "file:///", "chrome-extension://", ""];
 
 // helper functions
-
-let deleteCookie = (cookieName: string): string =>
-  document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-
 let setCookie = (cookieName: string, cookieContent: string, exDays: number = 365): void => {
   const dateObject = new Date();
   dateObject.setTime(dateObject.getTime() + (exDays*24*60*60*1000));
@@ -32,7 +29,7 @@ function getCookie(cname: string): string | undefined {
 // search functionality
 let search = () => {
   const searchTerm: string | null = (document.getElementById("search-box") as HTMLInputElement)?.value;
-  const searchEngine: string = "https://search.brave.com/search?q=";
+  const searchEngine: string = "https://www.google.com/search?q=";
 
   if (searchTerm !== null) {
     if (searchTerm.includes("://")) {
@@ -57,10 +54,67 @@ let addCard = () => {
 
   if (newCardURL === null || newCardURL === undefined || newCardURL === "") { return; }
 
-  console.log(newCardURL);
+  // check that the URL is valid
+  let foundSupportedProtocol: boolean = false;
+  SUPPORTED_PROTOCOLS.forEach((protocol) => {
+    if (newCardURL.includes(protocol)) {
+      foundSupportedProtocol = true;
+    }
+  });
+
+  if (!foundSupportedProtocol) {
+    alert("Web protocol not supported...");
+    return;
+  }
+
   const existingCards = getCookie(CARD_COOKIE_NAME);
+
+  // check that there are no duplicates
+  if (existingCards !== undefined) {
+
+    if (existingCards.split(",").length <= 1) {
+      // there is only 1 card
+      if (existingCards.includes(newCardURL)) {
+        alert("Duplicate Card Found...");
+        return;
+      }
+    } else {
+      // there are more than 1 card
+      if (existingCards.includes(`,${newCardURL}`)) {
+        alert("Duplicate Card Found...");
+        return;
+      }
+    }
+
+  }
+
   setCookie(CARD_COOKIE_NAME, `${existingCards},${newCardURL}`);
   window.location.reload();
+}
+
+let deleteCard = (id: number, cardURL: string) => {
+  if (id !== null) {
+    const cardObj = document.getElementById(`${id}`);
+    if (cardObj !== null) {
+      // remove the card visually
+      cardObj.remove();
+
+      // remove the card from cookies
+      const currentCards = getCookie(CARD_COOKIE_NAME);
+      if (currentCards !== undefined) {
+        let newCards = currentCards;
+        
+        SUPPORTED_PROTOCOLS.forEach((protocol) => {
+          const scanningContent = `${protocol}${cardURL}`;
+          console.log(scanningContent);
+          newCards = newCards.replace(`,${scanningContent}`, "");
+          newCards = newCards.replace(scanningContent, "");  
+        });
+
+        setCookie(CARD_COOKIE_NAME, newCards);
+      }
+    }
+  }
 }
 
 let createCards = () => {
@@ -68,15 +122,31 @@ let createCards = () => {
   const cards = historicalCards?.split(",");
   
   if (cards !== undefined && cards?.length > 0) {
-    cards.forEach((card) => {
+    cards.forEach((cardURL) => {
+      const uniqueId = Math.random() * 1000;
 
-      if (card !== undefined && card !== "undefined") {
-        const faviconURL = `https://${card.split("/")[2]}/favicon.ico`;
+      if (cardURL !== undefined && cardURL !== "undefined") {
+        const faviconURL = `https://${cardURL.split("/")[2]}/favicon.ico`;
 
-        const newCardObj = document.createElement("a");
-        newCardObj.href = card;
+        const newCardObj = document.createElement("div");
+        newCardObj.id = `${uniqueId}`;
         newCardObj.className = "fav";
-        newCardObj.innerHTML = `<img  src="${faviconURL}">`;
+        const newCardLink = document.createElement("a");
+        newCardLink.href = cardURL;
+        
+        // use the Google favicon service
+        newCardLink.innerHTML = `<img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${faviconURL}" alt="${cardURL.replace("https://", "")}">`;
+
+        const removeButton = document.createElement("button");
+        removeButton.id = `${uniqueId}-removeBTN`;
+        removeButton.className = "removeCardButton";
+        removeButton.innerText = "Remove";
+        removeButton.addEventListener("click", function handleClick(event) {
+          deleteCard(uniqueId, cardURL);
+        });
+
+        newCardObj.appendChild(newCardLink);
+        newCardObj.appendChild(removeButton);
         document.getElementById("card-container")?.appendChild(newCardObj);
       }
 
@@ -89,7 +159,9 @@ let createCards = () => {
   plusCardObj.id = "add-card-icon";
   plusCardObj.href = "#";
   plusCardObj.className = "fav";
-  plusCardObj.innerHTML = "+";
+  const plusCardIcon = document.createElement("img");
+  plusCardIcon.src = "https://cdn.iconscout.com/icon/free/png-256/add-plus-3114469-2598247.png";
+  plusCardObj.appendChild(plusCardIcon);
   document.getElementById("card-container")?.appendChild(plusCardObj);
 }
 
@@ -101,7 +173,10 @@ let updateTime = () => {
     const dateObject = new Date();
     let currentTime = `${dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours()}:${dateObject.getMinutes()}`;
     if (currentTime.length < 5) {
-      currentTime = "0" + currentTime;
+      if (currentTime.length < 4) {
+        currentTime = `${currentTime.split(":")[0]}:0${currentTime.split(":")[1]}`
+      }
+      currentTime = `0${currentTime}`;
     }
     timeElement.innerHTML = currentTime;
   }
