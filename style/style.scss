@@ -3,7 +3,7 @@ $font-color: white;
 $dimmed-font-color: #999;
 $card-background: rgba(120,120,120,0.1);
 $card-background-focused: rgba(120,120,120,0.3);
-$accent-color: purple;
+$accent-color: #ff6961;
 $curve-amount: 8px;
 
 #gradient {
@@ -29,6 +29,12 @@ html {
 
 body {
   background-color: $background-color;
+
+  & a {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .content {
@@ -146,6 +152,10 @@ body {
 
       .removeCardButton {
         display: block;
+        padding: 5px;
+        padding-left: 8px;
+        padding-right: 8px;
+        border-radius: $curve-amount;
       }
     }
 
@@ -168,13 +178,16 @@ body {
     padding: 1px;
     border-width: 1px;
     color: white;
+    margin: 2px;
     font-size: 12px;
     cursor: pointer;
 
     &:hover {
       background-color: $card-background-focused;
-      padding: 0px;
       border-style: solid;
+      border-color: $card-background;
+      border-width: 2px;
+      margin: 0px;
     }
   }
 }

@@ -123,7 +123,7 @@ var createCards = function () {
                 var removeButton = document.createElement("button");
                 removeButton.id = uniqueId + "-removeBTN";
                 removeButton.className = "removeCardButton";
-                removeButton.innerText = "Remove";
+                removeButton.innerText = "X";
                 removeButton.addEventListener("click", function handleClick(event) {
                     deleteCard(uniqueId, cardURL);
                 });
