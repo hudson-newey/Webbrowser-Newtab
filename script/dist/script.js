@@ -103,46 +103,61 @@ var deleteCard = function (id, cardURL) {
         }
     }
 };
-var createCards = function () {
+var createCard = function (cardURL, img, eventFunction, canRemove) {
     var _a;
+    if (img === void 0) { img = undefined; }
+    if (eventFunction === void 0) { eventFunction = undefined; }
+    if (canRemove === void 0) { canRemove = true; }
+    var uniqueId = Math.random() * 1000;
+    var faviconURL = "";
+    if (img === undefined) {
+        faviconURL = "https://" + cardURL.split("/")[2] + "/favicon.ico";
+    }
+    else {
+        faviconURL = img;
+    }
+    var newCardObj = document.createElement("div");
+    newCardObj.id = "" + uniqueId;
+    newCardObj.className = "fav";
+    var newCardLink = document.createElement("a");
+    newCardLink.href = cardURL;
+    if (eventFunction !== undefined) {
+        newCardObj.onclick = function () { eventFunction(); };
+    }
+    // use the Google favicon service
+    if (img === undefined) {
+        newCardLink.innerHTML = "<img src=\"https://s2.googleusercontent.com/s2/favicons?domain_url=" + faviconURL + "\" alt=\"" + cardURL.replace("https://", "") + "\">";
+    }
+    else {
+        newCardLink.innerHTML = "<img src=\"" + faviconURL + "\" alt=\"" + cardURL.replace("https://", "") + "\">";
+    }
+    var removeButton = document.createElement("button");
+    ;
+    if (canRemove) {
+        removeButton.id = uniqueId + "-removeBTN";
+        removeButton.className = "removeCardButton";
+        removeButton.innerText = "X";
+        removeButton.addEventListener("click", function handleClick(event) {
+            deleteCard(uniqueId, cardURL);
+        });
+    }
+    newCardObj.appendChild(newCardLink);
+    if (canRemove)
+        newCardObj.appendChild(removeButton);
+    (_a = document.getElementById("card-container")) === null || _a === void 0 ? void 0 : _a.appendChild(newCardObj);
+};
+var createCards = function () {
     var historicalCards = getCookie(CARD_COOKIE_NAME);
     var cards = historicalCards === null || historicalCards === void 0 ? void 0 : historicalCards.split(",");
     if (cards !== undefined && (cards === null || cards === void 0 ? void 0 : cards.length) > 0) {
         cards.forEach(function (cardURL) {
-            var _a;
-            var uniqueId = Math.random() * 1000;
             if (cardURL !== undefined && cardURL !== "undefined") {
-                var faviconURL = "https://" + cardURL.split("/")[2] + "/favicon.ico";
-                var newCardObj = document.createElement("div");
-                newCardObj.id = "" + uniqueId;
-                newCardObj.className = "fav";
-                var newCardLink = document.createElement("a");
-                newCardLink.href = cardURL;
-                // use the Google favicon service
-                newCardLink.innerHTML = "<img src=\"https://s2.googleusercontent.com/s2/favicons?domain_url=" + faviconURL + "\" alt=\"" + cardURL.replace("https://", "") + "\">";
-                var removeButton = document.createElement("button");
-                removeButton.id = uniqueId + "-removeBTN";
-                removeButton.className = "removeCardButton";
-                removeButton.innerText = "X";
-                removeButton.addEventListener("click", function handleClick(event) {
-                    deleteCard(uniqueId, cardURL);
-                });
-                newCardObj.appendChild(newCardLink);
-                newCardObj.appendChild(removeButton);
-                (_a = document.getElementById("card-container")) === null || _a === void 0 ? void 0 : _a.appendChild(newCardObj);
+                createCard(cardURL);
             }
         });
     }
     // "plus card" card
-    var plusCardObj = document.createElement("a");
-    plusCardObj.onclick = function () { addCard(); };
-    plusCardObj.id = "add-card-icon";
-    plusCardObj.href = "#";
-    plusCardObj.className = "fav";
-    var plusCardIcon = document.createElement("img");
-    plusCardIcon.src = "https://cdn.iconscout.com/icon/free/png-256/add-plus-3114469-2598247.png";
-    plusCardObj.appendChild(plusCardIcon);
-    (_a = document.getElementById("card-container")) === null || _a === void 0 ? void 0 : _a.appendChild(plusCardObj);
+    createCard("#", "https://cdn.iconscout.com/icon/free/png-256/add-plus-3114469-2598247.png", function () { return addCard(); }, false);
 };
 // async processes
 var updateTime = function () {

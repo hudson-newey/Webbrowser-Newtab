@@ -29,12 +29,6 @@ html {
 
 body {
   background-color: $background-color;
-
-  & a {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
 }
 
 .content {
@@ -159,7 +153,18 @@ body {
       }
     }
 
+    a {
+      display: block;
+      position: relative;
+      top: -50%;
+      left: -10%;
+      width: 120%;
+      height: 200%;
+    }
+
     & img {
+      position: relative;
+      top: 20px;
       width: 30px;
       height: 30px;
       word-wrap: anywhere;
