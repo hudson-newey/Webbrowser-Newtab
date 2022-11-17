@@ -165,13 +165,19 @@ var updateTime = function () {
     if (timeElement !== null) {
         var dateObject = new Date();
         var currentTime = (dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours()) + ":" + dateObject.getMinutes();
-        if (currentTime.length < 5) {
-            if (currentTime.length < 4) {
-                currentTime = currentTime.split(":")[0] + ":0" + currentTime.split(":")[1];
-            }
-            currentTime = "0" + currentTime;
-        }
-        timeElement.innerHTML = currentTime;
+        currentTime = "12:19";
+        // format time correctly by adding leading zeros
+        var hour = currentTime.split(":")[0];
+        var minute = currentTime.split(":")[1];
+        if (hour.length < 2)
+            hour = "0" + hour;
+        if (minute.length < 2)
+            minute = "0" + minute;
+        if (hour.length < 2)
+            hour = "0" + hour;
+        if (minute.length < 2)
+            minute = "0" + minute;
+        timeElement.innerHTML = hour + ":" + minute;
     }
 };
 var init = function () {
