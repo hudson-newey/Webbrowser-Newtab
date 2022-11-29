@@ -17,8 +17,9 @@
     </div>
 
     <div class="content">
-      <input id="search-box" class="form-control p-3" type="text" onkeydown="shouldSearch(event);"
+      <input id="search-box" class="form-control p-3" type="text" onkeyup="shouldSearch(event);"
         placeholder="Search the web..." autofocus />
+        <p id="instant-answer-box"></p>
     </div>
 
     <div id="card-container" class="favs"></div>

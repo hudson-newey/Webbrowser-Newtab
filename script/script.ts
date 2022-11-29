@@ -44,6 +44,10 @@ let shouldSearch = (event: KeyboardEvent) => {
   const key=event.keyCode || event.which;
   if (key==13){
     search();
+  } else {
+    // the user did not press enter
+    // we should therefore query the DuckDuckgo API for an instant answer
+    queryInstantAnswer();
   }
 }
 
@@ -204,6 +208,45 @@ let updateTime = () => {
     timeElement.innerHTML = `${hour}:${minute}`;
   }
 }
+
+// instant answers logic
+let queryInstantAnswer = () => {
+  let inputBox = document.getElementById("search-box") as HTMLInputElement;
+
+  if (inputBox !== null && inputBox !== undefined && inputBox.value !== "") {
+      const query = inputBox.value;
+      var apiResponse: string | void = "";
+
+      const response = fetch(`https://api.duckduckgo.com/?q=${query}&format=json`, {
+          method: "GET",
+          headers: {
+              "Accept": "application/json"
+          },
+      })
+      .then(response => response.json() )
+      .then(json => {
+        const instantAnswer = json.AbstractText;
+
+        if (instantAnswer!== undefined && instantAnswer!== null && instantAnswer !== "") {
+          const instantAnswerBox = document.getElementById("instant-answer-box") as HTMLElement;
+
+          if (instantAnswerBox!== null && instantAnswerBox!== undefined) {
+            console.log(instantAnswer);
+            instantAnswerBox.innerHTML = instantAnswer;
+          }
+        } else {
+          const instantAnswerBox = document.getElementById("instant-answer-box") as HTMLElement;
+
+          if (instantAnswerBox!== null && instantAnswerBox!== undefined) {
+            console.log(instantAnswer);
+            instantAnswerBox.innerHTML = "";
+          }
+        }
+      });
+  }
+}
+
+// gradient logic
 
 let init = () => {
   const currentDate = new Date().toISOString().slice(0, 10);
