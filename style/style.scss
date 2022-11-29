@@ -110,6 +110,19 @@ body {
   }
 }
 
+#instant-answer-box {
+  position: relative;
+  font-size: 24px;
+  color: $font-color;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin: 0 auto;
+  padding-top: 40px;
+  width: 110%;
+  left: -5%;
+  text-align: center;
+  word-spacing: 6px;
+}
+
 .favs {
   position: relative;
   margin: auto;

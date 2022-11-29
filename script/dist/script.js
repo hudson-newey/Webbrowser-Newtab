@@ -43,6 +43,11 @@ var shouldSearch = function (event) {
     if (key == 13) {
         search();
     }
+    else {
+        // the user did not press enter
+        // we should therefore query the DuckDuckgo API for an instant answer
+        queryInstantAnswer();
+    }
 };
 // user defined cards
 var addCard = function () {
@@ -180,6 +185,39 @@ var updateTime = function () {
         timeElement.innerHTML = hour + ":" + minute;
     }
 };
+// instant answers logic
+var queryInstantAnswer = function () {
+    var inputBox = document.getElementById("search-box");
+    if (inputBox !== null && inputBox !== undefined && inputBox.value !== "") {
+        var query = inputBox.value;
+        var apiResponse = "";
+        var response = fetch("https://api.duckduckgo.com/?q=" + query + "&format=json", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+            .then(function (response) { return response.json(); })
+            .then(function (json) {
+            var instantAnswer = json.AbstractText;
+            if (instantAnswer !== undefined && instantAnswer !== null && instantAnswer !== "") {
+                var instantAnswerBox = document.getElementById("instant-answer-box");
+                if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
+                    console.log(instantAnswer);
+                    instantAnswerBox.innerHTML = instantAnswer;
+                }
+            }
+            else {
+                var instantAnswerBox = document.getElementById("instant-answer-box");
+                if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
+                    console.log(instantAnswer);
+                    instantAnswerBox.innerHTML = "";
+                }
+            }
+        });
+    }
+};
+// gradient logic
 var init = function () {
     var currentDate = new Date().toISOString().slice(0, 10);
     var titleElement = document.getElementById("main-title");
