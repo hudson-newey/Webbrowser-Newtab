@@ -74,6 +74,10 @@ body {
       height: 38px !important;
     }
   }
+
+  #instant-answer-box {
+    text-align: center !important;
+  }
 }
 
 @keyframes fallAway {
@@ -112,15 +116,16 @@ body {
 
 #instant-answer-box {
   position: relative;
-  font-size: 24px;
+  font-size: 1.2em;
   color: $font-color;
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  left: 0% !important;
+  text-align: justify;
   margin: 0 auto;
   padding-top: 40px;
-  width: 110%;
+  width: 80%;
   left: -5%;
-  text-align: center;
-  word-spacing: 6px;
+  word-spacing: 5px;
 }
 
 .favs {
