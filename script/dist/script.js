@@ -137,7 +137,6 @@ var createCard = function (cardURL, img, eventFunction, canRemove) {
         newCardLink.innerHTML = "<img src=\"" + faviconURL + "\" alt=\"" + cardURL.replace("https://", "") + "\">";
     }
     var removeButton = document.createElement("button");
-    ;
     if (canRemove) {
         removeButton.id = uniqueId + "-removeBTN";
         removeButton.className = "removeCardButton";

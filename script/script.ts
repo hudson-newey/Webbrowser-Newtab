@@ -154,7 +154,7 @@ let createCard = (
     newCardLink.innerHTML = `<img src="${faviconURL}" alt="${cardURL.replace("https://", "")}">`;
   }
 
-  const removeButton: HTMLElement = document.createElement("button");;
+  const removeButton: HTMLElement = document.createElement("button");
   if (canRemove) {
     removeButton.id = `${uniqueId}-removeBTN`;
     removeButton.className = "removeCardButton";
