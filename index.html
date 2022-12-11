@@ -1,36 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="newtab, new tab, new tab page, NTP, chrome, firefox" />
+    <meta
+      name="description"
+      content="A new tab page that will never show advertisements or push a political agenda" />
+    <title>New Tab - Grathium Industries</title>
+    <link rel="stylesheet" href="./style/dist/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <script src="./lib/jquery.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="newtab, new tab, new tab page, NTP, chrome, firefox">
-  <meta name="description" content="A new tab page that will never show advertisements or push a political agenda">
-  <title>New Tab - Grathium Industries</title>
-  <link rel="stylesheet" href="./style/dist/style.css">
-  <script src="./lib/jquery.min.js"></script>
-</head>
+  <body>
+    <div id="gradient">
+      <div class="time-container">
+        <h1 id="time"></h1>
+      </div>
 
-<body>
-  <div id="gradient">
-    <div class="time-container">
-      <h1 id="time"></h1>
-    </div>
-
-    <div class="content">
-      <input id="search-box" class="form-control p-3" type="text" onkeyup="shouldSearch(event);"
-        placeholder="Search the web..." autofocus />
+      <div class="content">
+        <input
+          id="search-box"
+          class="form-control p-3"
+          type="text"
+          onkeyup="shouldSearch(event);"
+          placeholder="Search the web..."
+          autocomplete="off"
+          autofocus />
         <p id="instant-answer-box"></p>
+      </div>
+
+      <div id="card-container" class="favs"></div>
+
+      <div class="corner">
+        <a href="#settings" class="settings-icon" onclick="openSettings();">
+          <i class="fa fa-sliders"></i>
+        </a>
+      </div>
+
+      <div id="settings-pane" class="settings-pane">
+        <h2>Settings</h2>
+        <button class="close-btn" onclick="closeSettings();">Close</button>
+
+        <div class="divider"></div>
+
+        <div class="setting">
+          <strong>Search Engine</strong><br>
+          <select id="search-engines" onchange="changeSearchEngine();">
+            <option class="search-engine" value="https://www.google.com/search?q=" selected>Google</option>
+            <option class="search-engine" value="https://www.bing.com/search?q=">Bing</option>
+            <option class="search-engine" value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+            <option class="search-engine" value="https://www.ecosia.org/search?q=">Ecosia</option>
+            <option class="search-engine" value="https://search.brave.com/search?q=">Brave Search</option>
+          </select>  
+        </div>
+
+        <div class="setting">
+          <input id="show-instant-answers-setting" type="checkbox" class="checkbox" onchange="changeInstantAnswersSetting();" checked>
+          <strong>Show Instant Answers</strong>
+        </div>  
+      </div>
     </div>
 
-    <div id="card-container" class="favs"></div>
-  </div>
-
-  <footer>
-    <script async defer src="https://grathium-industries.github.io/static/js/dist/script.js" charset="utf-8"></script>
-    <script src="./script/dist/script.js"></script>
-  </footer>
-</body>
-
+    <footer>
+      <script
+        async
+        defer
+        src="https://grathium-industries.github.io/static/js/dist/script.js"
+        charset="utf-8"></script>
+      <script src="./script/dist/script.js"></script>
+    </footer>
+  </body>
 </html>

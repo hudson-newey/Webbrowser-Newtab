@@ -1,22 +1,34 @@
 // globals
 const CARD_COOKIE_NAME = "cards";
-const SUPPORTED_PROTOCOLS = ["https://", "http://", "ftp://", "file:///", "chrome-extension://", ""];
+const INSTANT_ANSWERS_COOKIE_NAME = "ia-setting";
+const SEARCH_ENGINE_COOKIE_NAME = "search-engine-setting";
+
+const KNOWN_TLDS = [".com", ".net", ".gov", ".org", ".eud"];
+
+const SUPPORTED_PROTOCOLS = [
+  "https://",
+  "http://",
+  "ftp://",
+  "file:///",
+  "chrome-extension://",
+  "",
+];
 
 // helper functions
-let setCookie = (cookieName: string, cookieContent: string, exDays: number = 365): void => {
+const setCookie = (cookieName: string, cookieContent: string, exDays: number = 365): void => {
   const dateObject = new Date();
-  dateObject.setTime(dateObject.getTime() + (exDays*24*60*60*1000));
+  dateObject.setTime(dateObject.getTime() + exDays * 24 * 60 * 60 * 1000);
   let expires = dateObject.toUTCString();
   document.cookie = `${cookieName}=${cookieContent};expires=${expires};path=/`;
-}
+};
 
-function getCookie(cname: string): string | undefined {
+const getCookie = (cname: string): string | undefined => {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
+  let ca = decodedCookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) == ' ') {
+    while (c.charAt(0) == " ") {
       c = c.substring(1);
     }
     if (c.indexOf(name) == 0) {
@@ -24,39 +36,96 @@ function getCookie(cname: string): string | undefined {
     }
   }
   return undefined;
-}
+};
+
+const doesExist = (value: any): boolean => value !== undefined && value !== null;
 
 // search functionality
-let search = () => {
-  const searchTerm: string | null = (document.getElementById("search-box") as HTMLInputElement)?.value;
-  const searchEngine: string = "https://www.google.com/search?q=";
+const search = (): void => {
+  const searchTerm: string | null = (document.getElementById("search-box") as HTMLInputElement)
+    ?.value;
+  let searching = false;
 
   if (searchTerm !== null) {
+    // test if it has a known top level domain
+    KNOWN_TLDS.forEach((tld) => {
+      if (searchTerm.includes(tld)) {
+        document.location.href = `https://${searchTerm}`;
+        searching = true;
+      }
+    });
+
+    if (searching) return;
+
+    // if it includes a protocol
     if (searchTerm.includes("://")) {
       document.location.href = searchTerm;
     } else {
-      document.location.href = `${searchEngine}${searchTerm}`;
+      document.location.href = constructSearchQuery(searchTerm);
     }
   }
-}
+};
 
-let shouldSearch = (event: KeyboardEvent) => {
-  const key=event.keyCode || event.which;
-  if (key==13){
+const constructSearchQuery = (searchTerm: string): string => {
+  const defaultSearchEngine = "https://www.google.com/search?q=";
+  const searchEngineSettingId = "search-engines";
+
+  const searchEngineSetting = document.getElementById(searchEngineSettingId) as HTMLSelectElement;
+
+  if (doesExist(searchEngineSetting)) {
+    return searchEngineSetting.value + searchTerm;
+  }
+
+  return defaultSearchEngine + searchTerm;
+};
+
+const changeSearchEngine = (): void => {
+  const searchEngineSettingId = "search-engines";
+
+  const searchEngineSetting = document.getElementById(searchEngineSettingId) as HTMLSelectElement;
+
+  if (doesExist(searchEngineSetting)) {
+    setCookie(SEARCH_ENGINE_COOKIE_NAME, searchEngineSetting.selectedIndex.toString());
+  }
+};
+
+const changeInstantAnswersSetting = (): void => {
+  const instantAnswersSettingId = "show-instant-answers-setting";
+
+  const instantAnswersSettingBox = document.getElementById(
+    instantAnswersSettingId
+  ) as HTMLInputElement;
+
+  if (doesExist(instantAnswersSettingBox)) {
+    setCookie(INSTANT_ANSWERS_COOKIE_NAME, instantAnswersSettingBox.checked ? "1" : "0");
+  }
+};
+
+const shouldSearch = (event: KeyboardEvent): void => {
+  const key = event.keyCode || event.which;
+  if (key === 13) {
     search();
   } else {
+    // if the user presses backspace, remove the current instant answer
+
+    if (key === 8) {
+      removeInstantAnswer();
+    }
+
     // the user did not press enter
     // we should therefore query the DuckDuckgo API for an instant answer
     queryInstantAnswer();
   }
-}
+};
 
 // user defined cards
 
-let addCard = () => {
+const addCard = (): void => {
   const newCardURL: string | null = prompt("Website URL", "https://www.google.com/");
 
-  if (newCardURL === null || newCardURL === undefined || newCardURL === "") { return; }
+  if (newCardURL === undefined || newCardURL === null || newCardURL === "") {
+    return;
+  }
 
   // check that the URL is valid
   let foundSupportedProtocol: boolean = false;
@@ -75,7 +144,6 @@ let addCard = () => {
 
   // check that there are no duplicates
   if (existingCards !== undefined) {
-
     if (existingCards.split(",").length <= 1) {
       // there is only 1 card
       if (existingCards.includes(newCardURL)) {
@@ -89,15 +157,14 @@ let addCard = () => {
         return;
       }
     }
-
   }
 
   setCookie(CARD_COOKIE_NAME, `${existingCards},${newCardURL}`);
   window.location.reload();
-}
+};
 
-let deleteCard = (id: number, cardURL: string) => {
-  if (id !== null) {
+const deleteCard = (id: number, cardURL: string): void => {
+  if (doesExist(id)) {
     const cardObj = document.getElementById(`${id}`);
     if (cardObj !== null) {
       // remove the card visually
@@ -107,26 +174,26 @@ let deleteCard = (id: number, cardURL: string) => {
       const currentCards = getCookie(CARD_COOKIE_NAME);
       if (currentCards !== undefined) {
         let newCards = currentCards;
-        
+
         SUPPORTED_PROTOCOLS.forEach((protocol) => {
           const scanningContent = `${protocol}${cardURL}`;
           console.log(scanningContent);
           newCards = newCards.replace(`,${scanningContent}`, "");
-          newCards = newCards.replace(scanningContent, "");  
+          newCards = newCards.replace(scanningContent, "");
         });
 
         setCookie(CARD_COOKIE_NAME, newCards);
       }
     }
   }
-}
+};
 
-let createCard = (
+const createCard = (
   cardURL: string,
   img: string | undefined = undefined,
   eventFunction: any = undefined,
   canRemove: boolean = true
-) => {
+): void => {
   const uniqueId = Math.random() * 1000;
 
   let faviconURL = "";
@@ -143,13 +210,18 @@ let createCard = (
   const newCardLink = document.createElement("a");
   newCardLink.href = cardURL;
 
-  if (eventFunction !== undefined) {
-    newCardObj.onclick = function() { eventFunction(); }
+  if (doesExist(eventFunction)) {
+    newCardObj.onclick = function () {
+      eventFunction();
+    };
   }
-  
+
   // use the Google favicon service
   if (img === undefined) {
-    newCardLink.innerHTML = `<img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${faviconURL}" alt="${cardURL.replace("https://", "")}">`;
+    newCardLink.innerHTML = `<img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${faviconURL}" alt="${cardURL.replace(
+      "https://",
+      ""
+    )}">`;
   } else {
     newCardLink.innerHTML = `<img src="${faviconURL}" alt="${cardURL.replace("https://", "")}">`;
   }
@@ -167,34 +239,93 @@ let createCard = (
   newCardObj.appendChild(newCardLink);
   if (canRemove) newCardObj.appendChild(removeButton);
   document.getElementById("card-container")?.appendChild(newCardObj);
-}
+};
 
-let createCards = () => {
+const createCards = (): void => {
   const historicalCards = getCookie(CARD_COOKIE_NAME);
   const cards = historicalCards?.split(",");
-  
+
   if (cards !== undefined && cards?.length > 0) {
     cards.forEach((cardURL) => {
-
       if (cardURL !== undefined && cardURL !== "undefined") {
         createCard(cardURL);
       }
-
     });
   }
 
   // "plus card" card
-  createCard("#", "https://cdn.iconscout.com/icon/free/png-256/add-plus-3114469-2598247.png", () => addCard(), false);
-}
+  createCard(
+    "#",
+    "https://cdn.iconscout.com/icon/free/png-256/add-plus-3114469-2598247.png",
+    () => addCard(),
+    false
+  );
+};
 
-// async processes
+const setInstantAnswersSettingCheckbox = (value: boolean): void => {
+  const instantAnswersSettingId = "show-instant-answers-setting";
 
-let updateTime = () => {
+  const instantAnswersBox = document.getElementById(instantAnswersSettingId) as HTMLInputElement;
+
+  if (doesExist(instantAnswersBox)) {
+    instantAnswersBox.checked = value;
+  }
+};
+
+const setSearchEngineSettings = (index: number): void => {
+  const searchEngineSettingId = "search-engines";
+
+  const searchEngineSetting = document.getElementById(searchEngineSettingId) as HTMLSelectElement;
+
+  if (doesExist(searchEngineSetting)) {
+    searchEngineSetting.selectedIndex = index;
+  }
+};
+
+// saves the user settings through cookies
+const initSettings = (): void => {
+  // instant answers settings
+  if (getCookie(INSTANT_ANSWERS_COOKIE_NAME) === "0") {
+    setInstantAnswersSettingCheckbox(false);
+  } else {
+    setInstantAnswersSettingCheckbox(true);
+  }
+
+  // search engine settings
+  const selectedSearchEngine = getCookie(SEARCH_ENGINE_COOKIE_NAME);
+  if (selectedSearchEngine !== undefined) {
+    setSearchEngineSettings(+selectedSearchEngine);
+  } else {
+    setSearchEngineSettings(0);
+  }
+};
+
+const setSettingsPaneDisplayStyle = (style: string): void => {
+  const settingsContainerId = "settings-pane";
+  const settingsPane = document.getElementById(settingsContainerId);
+
+  if (settingsPane !== undefined && settingsPane !== null) {
+    settingsPane.style.display = style;
+  }
+};
+
+let openSettings = (): void => {
+  setSettingsPaneDisplayStyle("block");
+};
+
+let closeSettings = (): void => {
+  setSettingsPaneDisplayStyle("none");
+};
+
+// async & event processes
+
+const updateTime = (): void => {
   let timeElement: HTMLElement | null = document.getElementById("time");
   if (timeElement !== null) {
     const dateObject = new Date();
-    let currentTime = `${dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours()}:${dateObject.getMinutes()}`;
-    currentTime = "12:19";
+    let currentTime = `${
+      dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours()
+    }:${dateObject.getMinutes()}`;
 
     // format time correctly by adding leading zeros
     let hour = currentTime.split(":")[0];
@@ -207,48 +338,72 @@ let updateTime = () => {
 
     timeElement.innerHTML = `${hour}:${minute}`;
   }
-}
+};
+
+const shouldShowInstantAnswers = (): boolean => {
+  const defaultReturnValue = true;
+  const settingId = "show-instant-answers-setting";
+
+  const settingElement = document.getElementById(settingId) as HTMLInputElement;
+
+  if (settingElement !== undefined && settingElement !== null) {
+    return settingElement.checked;
+  }
+
+  return defaultReturnValue;
+};
 
 // instant answers logic
-let queryInstantAnswer = () => {
+const queryInstantAnswer = (): void => {
+  if (!shouldShowInstantAnswers()) {
+    return;
+  }
+
   let inputBox = document.getElementById("search-box") as HTMLInputElement;
 
   if (inputBox !== null && inputBox !== undefined && inputBox.value !== "") {
-      const query = inputBox.value;
-      var apiResponse: string | void = "";
+    const query = inputBox.value;
 
-      const response = fetch(`https://api.duckduckgo.com/?q=${query}&format=json`, {
-          method: "GET",
-          headers: {
-              "Accept": "application/json"
-          },
-      })
-      .then(response => response.json() )
-      .then(json => {
+    const response = fetch(`https://api.duckduckgo.com/?q=${query}&format=json`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
         const instantAnswer = json.AbstractText;
 
-        if (instantAnswer!== undefined && instantAnswer!== null && instantAnswer !== "") {
+        if (instantAnswer !== undefined && instantAnswer !== null && instantAnswer !== "") {
           const instantAnswerBox = document.getElementById("instant-answer-box") as HTMLElement;
 
-          if (instantAnswerBox!== null && instantAnswerBox!== undefined) {
+          if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
             console.log(instantAnswer);
             instantAnswerBox.innerHTML = instantAnswer;
           }
         } else {
           const instantAnswerBox = document.getElementById("instant-answer-box") as HTMLElement;
 
-          if (instantAnswerBox!== null && instantAnswerBox!== undefined) {
+          if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
             console.log(instantAnswer);
             instantAnswerBox.innerHTML = "";
           }
         }
       });
   }
-}
+};
+
+const removeInstantAnswer = (): void => {
+  const instantAnswersBox = document.getElementById("instant-answer-box");
+
+  if (instantAnswersBox !== undefined && instantAnswersBox !== null) {
+    instantAnswersBox.innerText = "";
+  }
+};
 
 // gradient logic
 
-let init = () => {
+const init = (): void => {
   const currentDate = new Date().toISOString().slice(0, 10);
   const titleElement: HTMLElement | null = document.getElementById("main-title");
 
@@ -257,13 +412,14 @@ let init = () => {
   }
 
   createCards();
+  initSettings();
 
   loop();
-}
+};
 
-let loop = () => {
+const loop = (): void => {
   updateTime();
   setTimeout(loop, 1000);
-}
+};
 
 init();
