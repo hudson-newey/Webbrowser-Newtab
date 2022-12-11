@@ -1,17 +1,22 @@
 $background-color: black;
 $font-color: white;
-$dimmed-font-color: #999;
-$card-background: rgba(120,120,120,0.1);
-$card-background-focused: rgba(120,120,120,0.3);
+$dimmed-font-color: #777;
+$card-background: rgba(120, 120, 120, 0.1);
+$card-background-focused: rgba(120, 120, 120, 0.3);
+$tray-background-color: rgba(30, 30, 30);
 $accent-color: #ff6961;
 $curve-amount: 8px;
+$animation: all 0.15s ease;
+$font-size: 2.5em;
+$font-family: Arial, Helvetica, sans-serif;
 
 #gradient {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 }
 
 html {
@@ -45,54 +50,17 @@ body {
     height: 40px;
     width: 90%;
     font-size: 38px;
-    font-family: sans-serif;
+    font-family: $font-family;
     padding: 10px;
     border-width: 2px;
-    border-color: gray;
-    background-color: $card-background-focused;
+    border-color: $card-background-focused;
+    background-color: $card-background;
     font-weight: lighter;
+    outline: none;
 
     &:focus {
       background-color: $card-background-focused;
     }
-  }
-}
-
-// when on mobile
-@media only screen and (max-width: 600px) {
-  .content {
-    top: 80px !important;
-    width: 100%;
-  }
-
-  .favs {
-    position: absolute;
-    top: 120px !important;
-
-    & > .fav {
-      width: 38px !important;
-      height: 38px !important;
-    }
-  }
-
-  #instant-answer-box {
-    text-align: center !important;
-  }
-}
-
-@keyframes fallAway {
-  0% {
-    transform: rotateZ(0deg);
-    top: 0;
-    opacity: 1;
-  }
-  25% {
-    transform: rotateZ(-15deg);
-  }
-  100% {
-    top: 300px;
-    transform: rotateZ(-5deg);
-    opacity: 0;
   }
 }
 
@@ -104,10 +72,10 @@ body {
 
   & > #time {
     color: $dimmed-font-color;
-    font-size: 2.5em;
+    font-size: $font-size;
 
     &:hover {
-      transition: all 0.15s ease;
+      transition: $animation;
       color: $font-color;
       cursor: pointer;
     }
@@ -118,7 +86,8 @@ body {
   position: relative;
   font-size: 1.2em;
   color: $font-color;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
+    Verdana, sans-serif;
   left: 0% !important;
   text-align: justify;
   margin: 0 auto;
@@ -147,10 +116,11 @@ body {
     margin: 10px;
     width: 187.5px;
     height: 37.5px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode",
+      Geneva, Verdana, sans-serif;
     text-decoration: none;
     transform: scale(1);
-    transition: all 0.15s ease;
+    transition: $animation;
     border-radius: $curve-amount;
 
     &:hover {
@@ -190,7 +160,7 @@ body {
       max-height: 30px;
     }
   }
-  
+
   .removeCardButton {
     display: none;
     position: absolute;
@@ -212,5 +182,119 @@ body {
       border-width: 2px;
       margin: 0px;
     }
+  }
+}
+
+.corner {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+
+.settings-icon {
+  position: a;
+  color: $dimmed-font-color;
+  font-size: $font-size / 1.8;
+  text-decoration: none;
+  transition: $animation;
+
+  &:hover {
+    color: $font-color;
+  }
+}
+
+
+.settings-pane {
+  display: none;
+  position: absolute;
+  left: 70%;
+  top: 0px;
+  height: 95%;
+  width: calc(25% + 15px);
+  background-color: $tray-background-color;
+  padding: 40px;
+  padding-top: 10px;
+
+  & > .close-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    color: $font-color;
+    background-color: $card-background;
+    border-radius: $curve-amount;
+    border-style: none;
+    font-size: $font-size / 3;
+    padding: 12px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $card-background-focused;
+    }
+  }
+
+  .setting {
+    margin-top: 40px;
+  }
+}
+
+#search-engines {
+  position: relative;
+  margin-top: 15px;
+  color: $font-color;
+  font-size: $font-size / 2;
+  background-color: $card-background;
+  border-color: $card-background-focused;
+}
+
+.divider {
+  position: relative;
+  border-color: $card-background-focused;
+  border-width: 1px;
+  border-style: solid;
+  width: 100%;
+}
+
+// when on mobile
+@media only screen and (max-width: 600px) {
+  .content {
+    top: 80px !important;
+    width: 100%;
+  }
+
+  .favs {
+    position: absolute;
+    top: 150px !important;
+    left: 10% !important;
+
+    & > .fav {
+      width: 38px !important;
+      height: 38px !important;
+    }
+  }
+
+  #instant-answer-box {
+    text-align: center !important;
+  }
+
+  .settings-icon {
+    display: none;
+  }
+}
+
+@keyframes fallAway {
+  0% {
+    transform: rotateZ(0deg);
+    top: 0;
+    opacity: 1;
+  }
+  25% {
+    transform: rotateZ(-15deg);
+  }
+  100% {
+    top: 300px;
+    transform: rotateZ(-5deg);
+    opacity: 0;
   }
 }
