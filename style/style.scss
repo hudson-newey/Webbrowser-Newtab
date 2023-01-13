@@ -5,9 +5,9 @@ $card-background: rgba(120, 120, 120, 0.1);
 $card-background-focused: rgba(120, 120, 120, 0.3);
 $tray-background-color: rgba(30, 30, 30);
 $accent-color: #ff6961;
-$curve-amount: 8px;
+$curve-amount: 0.5rem;
 $animation: all 0.15s ease;
-$font-size: 2.5em;
+$font-size: 2.5rem;
 $font-family: Arial, Helvetica, sans-serif;
 
 #gradient {
@@ -246,6 +246,13 @@ body {
   font-size: $font-size / 2;
   background-color: $card-background;
   border-color: $card-background-focused;
+  border-radius: $curve-amount;
+  padding: $curve-amount / 2;
+
+  &:focus {
+    border-color: $accent-color;
+    background-color: $background-color;
+  }
 }
 
 .divider {

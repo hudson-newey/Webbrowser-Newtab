@@ -32,7 +32,7 @@ body {
 }
 .content #search-box {
   position: relative;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   color: white;
   height: 40px;
   width: 90%;
@@ -57,7 +57,7 @@ body {
 }
 .time-container > #time {
   color: #777;
-  font-size: 2.5em;
+  font-size: 2.5rem;
 }
 .time-container > #time:hover {
   transition: all 0.15s ease;
@@ -102,7 +102,7 @@ body {
   text-decoration: none;
   transform: scale(1);
   transition: all 0.15s ease;
-  border-radius: 8px;
+  border-radius: 0.5rem;
 }
 .favs > .fav:hover {
   transform: scale(1.1);
@@ -110,7 +110,7 @@ body {
   border-color: #ff6961;
   background-color: rgba(120, 120, 120, 0.3);
   border-width: 4px;
-  border-radius: 16px;
+  border-radius: 1rem;
   cursor: pointer;
 }
 .favs > .fav:hover .removeCardButton {
@@ -118,7 +118,7 @@ body {
   padding: 5px;
   padding-left: 8px;
   padding-right: 8px;
-  border-radius: 8px;
+  border-radius: 0.5rem;
 }
 .favs > .fav a {
   display: block;
@@ -168,7 +168,7 @@ body {
 .settings-icon {
   position: a;
   color: #777;
-  font-size: 1.3888888889em;
+  font-size: 1.3888888889rem;
   text-decoration: none;
   transition: all 0.15s ease;
 }
@@ -193,9 +193,9 @@ body {
   right: 25px;
   color: white;
   background-color: rgba(120, 120, 120, 0.1);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   border-style: none;
-  font-size: 0.8333333333em;
+  font-size: 0.8333333333rem;
   padding: 12px;
   padding-left: 15px;
   padding-right: 15px;
@@ -212,9 +212,15 @@ body {
   position: relative;
   margin-top: 15px;
   color: white;
-  font-size: 1.25em;
+  font-size: 1.25rem;
   background-color: rgba(120, 120, 120, 0.1);
   border-color: rgba(120, 120, 120, 0.3);
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+#search-engines:focus {
+  border-color: #ff6961;
+  background-color: black;
 }
 
 .divider {
