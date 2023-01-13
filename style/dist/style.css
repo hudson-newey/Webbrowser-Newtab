@@ -4,7 +4,8 @@
   left: 0px;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 html {
@@ -21,16 +22,38 @@ html > * {
 
 body {
   background-color: black;
+  overflow: hidden;
 }
 
-.content {
-  margin: auto;
-  position: relative;
-  width: 50%;
-  text-align: center;
-  top: 150px;
+button {
+  color: white;
+  background-color: rgba(120, 120, 120, 0.1);
+  border-radius: 0.5rem;
+  border-style: none;
+  border-width: 1px;
+  font-size: 0.8333333333rem;
+  padding: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  cursor: pointer;
+  margin: 1px;
 }
-.content #search-box {
+button:hover {
+  background-color: rgba(120, 120, 120, 0.3);
+  border-style: solid;
+  border-color: #ff6961;
+  margin: 0px;
+}
+
+.btn--large {
+  padding: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 2em;
+}
+
+input[type=url],
+input[type=text] {
   position: relative;
   border-radius: 0.5rem;
   color: white;
@@ -44,9 +67,19 @@ body {
   background-color: rgba(120, 120, 120, 0.1);
   font-weight: lighter;
   outline: none;
+  content: "";
 }
-.content #search-box:focus {
+input[type=url]:focus,
+input[type=text]:focus {
   background-color: rgba(120, 120, 120, 0.3);
+}
+
+.content {
+  margin: auto;
+  position: relative;
+  width: 50%;
+  text-align: center;
+  top: 150px;
 }
 
 .time-container {
@@ -186,23 +219,14 @@ body {
   background-color: #1e1e1e;
   padding: 40px;
   padding-top: 10px;
+  border-left: rgba(120, 120, 120, 0.1);
+  border-left-style: solid;
+  animation: flyIn 0.5s ease-out;
 }
 .settings-pane > .close-btn {
   position: absolute;
   top: 25px;
   right: 25px;
-  color: white;
-  background-color: rgba(120, 120, 120, 0.1);
-  border-radius: 0.5rem;
-  border-style: none;
-  font-size: 0.8333333333rem;
-  padding: 12px;
-  padding-left: 15px;
-  padding-right: 15px;
-  cursor: pointer;
-}
-.settings-pane > .close-btn:hover {
-  background-color: rgba(120, 120, 120, 0.3);
 }
 .settings-pane .setting {
   margin-top: 40px;
@@ -221,6 +245,28 @@ body {
 #search-engines:focus {
   border-color: #ff6961;
   background-color: black;
+}
+
+.command-pallet {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #1e1e1e;
+  width: 100%;
+  height: 100%;
+}
+.command-pallet > .action-buttons {
+  position: absolute;
+  left: 50%;
+  top: calc(60% + 40px);
+  transform: translate(-50%, -50%);
+}
+.command-pallet > input {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .divider {
@@ -268,5 +314,13 @@ body {
     top: 300px;
     transform: rotateZ(-5deg);
     opacity: 0;
+  }
+}
+@keyframes flyIn {
+  0% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(0%);
   }
 }

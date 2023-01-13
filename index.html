@@ -4,15 +4,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="newtab, new tab, new tab page, NTP, chrome, firefox" />
+    <meta
+      name="keywords"
+      content="newtab, new tab, new tab page, NTP, chrome, firefox"
+    />
     <meta
       name="description"
-      content="A new tab page that will never show advertisements or push a political agenda" />
+      content="A new tab page that will never show advertisements or push a political agenda"
+    />
     <title>New Tab - Grathium Industries</title>
     <link rel="stylesheet" href="./style/dist/style.css" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
     <script src="./lib/jquery.min.js"></script>
   </head>
 
@@ -30,7 +35,8 @@
           onkeyup="shouldSearch(event);"
           placeholder="Search the web..."
           autocomplete="off"
-          autofocus />
+          autofocus
+        />
         <p id="instant-answer-box"></p>
       </div>
 
@@ -49,20 +55,63 @@
         <div class="divider"></div>
 
         <div class="setting">
-          <strong>Search Engine</strong><br>
+          <strong>Search Engine</strong><br />
           <select id="search-engines" onchange="changeSearchEngine();">
-            <option class="search-engine" value="https://www.google.com/search?q=" selected>Google</option>
-            <option class="search-engine" value="https://www.bing.com/search?q=">Bing</option>
-            <option class="search-engine" value="https://duckduckgo.com/?q=">DuckDuckGo</option>
-            <option class="search-engine" value="https://www.ecosia.org/search?q=">Ecosia</option>
-            <option class="search-engine" value="https://search.brave.com/search?q=">Brave Search</option>
-          </select>  
+            <option
+              class="search-engine"
+              value="https://www.google.com/search?q="
+              selected
+            >
+              Google
+            </option>
+            <option
+              class="search-engine"
+              value="https://www.bing.com/search?q="
+            >
+              Bing
+            </option>
+            <option class="search-engine" value="https://duckduckgo.com/?q=">
+              DuckDuckGo
+            </option>
+            <option
+              class="search-engine"
+              value="https://www.ecosia.org/search?q="
+            >
+              Ecosia
+            </option>
+            <option
+              class="search-engine"
+              value="https://search.brave.com/search?q="
+            >
+              Brave Search
+            </option>
+          </select>
         </div>
 
         <div class="setting">
-          <input id="show-instant-answers-setting" type="checkbox" class="checkbox" onchange="changeInstantAnswersSetting();" checked>
+          <input
+            id="show-instant-answers-setting"
+            type="checkbox"
+            class="checkbox"
+            onchange="changeInstantAnswersSetting();"
+            checked
+          />
           <strong>Show Instant Answers</strong>
-        </div>  
+        </div>
+      </div>
+
+      <div id="command-pallet-container" class="command-pallet">
+        <input
+          id="new-card-url-input"
+          type="url"
+          placeholder="Add URL to create cards"
+          onkeyup="shouldAddNewCardFromInput(event);"
+        />
+
+        <div class="action-buttons">
+          <button class="btn--large" onclick="getAndAddCardFromInput();">Add Card</button>
+          <button class="btn--large" onclick="hideCardInput();">Cancel</button>
+        </div>
       </div>
     </div>
 
@@ -71,7 +120,8 @@
         async
         defer
         src="https://grathium-industries.github.io/static/js/dist/script.js"
-        charset="utf-8"></script>
+        charset="utf-8"
+      ></script>
       <script src="./script/dist/script.js"></script>
     </footer>
   </body>

@@ -16,7 +16,8 @@ $font-family: Arial, Helvetica, sans-serif;
   left: 0px;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 html {
@@ -34,6 +35,57 @@ html {
 
 body {
   background-color: $background-color;
+  overflow: hidden;
+}
+
+button {
+  color: $font-color;
+  background-color: $card-background;
+  border-radius: $curve-amount;
+  border-style: none;
+  border-width: 1px;
+  font-size: $font-size / 3;
+  padding: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  cursor: pointer;
+  margin: 1px;
+
+  &:hover {
+    background-color: $card-background-focused;
+    border-style: solid;
+    border-color: $accent-color;
+    margin: 0px;
+  }
+}
+
+.btn--large {
+  padding: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 2em;
+}
+
+input[type="url"],
+input[type="text"] {
+  position: relative;
+  border-radius: $curve-amount;
+  color: $font-color;
+  height: 40px;
+  width: 90%;
+  font-size: 38px;
+  font-family: $font-family;
+  padding: 10px;
+  border-width: 2px;
+  border-color: $card-background-focused;
+  background-color: $card-background;
+  font-weight: lighter;
+  outline: none;
+  content: "";
+
+  &:focus {
+    background-color: $card-background-focused;
+  }
 }
 
 .content {
@@ -42,26 +94,6 @@ body {
   width: 50%;
   text-align: center;
   top: 150px;
-
-  #search-box {
-    position: relative;
-    border-radius: $curve-amount;
-    color: $font-color;
-    height: 40px;
-    width: 90%;
-    font-size: 38px;
-    font-family: $font-family;
-    padding: 10px;
-    border-width: 2px;
-    border-color: $card-background-focused;
-    background-color: $card-background;
-    font-weight: lighter;
-    outline: none;
-
-    &:focus {
-      background-color: $card-background-focused;
-    }
-  }
 }
 
 .time-container {
@@ -86,8 +118,8 @@ body {
   position: relative;
   font-size: 1.2em;
   color: $font-color;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
-    Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   left: 0% !important;
   text-align: justify;
   margin: 0 auto;
@@ -116,8 +148,8 @@ body {
     margin: 10px;
     width: 187.5px;
     height: 37.5px;
-    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode",
-      Geneva, Verdana, sans-serif;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
     text-decoration: none;
     transform: scale(1);
     transition: $animation;
@@ -203,7 +235,6 @@ body {
   }
 }
 
-
 .settings-pane {
   display: none;
   position: absolute;
@@ -214,24 +245,15 @@ body {
   background-color: $tray-background-color;
   padding: 40px;
   padding-top: 10px;
+  border-left: $card-background;
+  border-left-style: solid;
+
+  animation: flyIn 0.5s ease-out;
 
   & > .close-btn {
     position: absolute;
     top: 25px;
     right: 25px;
-    color: $font-color;
-    background-color: $card-background;
-    border-radius: $curve-amount;
-    border-style: none;
-    font-size: $font-size / 3;
-    padding: 12px;
-    padding-left: 15px;
-    padding-right: 15px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $card-background-focused;
-    }
   }
 
   .setting {
@@ -252,6 +274,30 @@ body {
   &:focus {
     border-color: $accent-color;
     background-color: $background-color;
+  }
+}
+
+.command-pallet {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: $tray-background-color;
+  width: 100%;
+  height: 100%;
+
+  & > .action-buttons {
+    position: absolute;
+    left: 50%;
+    top: calc(60% + 40px);
+    transform: translate(-50%, -50%);
+  }
+
+  & > input {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
@@ -303,5 +349,14 @@ body {
     top: 300px;
     transform: rotateZ(-5deg);
     opacity: 0;
+  }
+}
+
+@keyframes flyIn {
+  0% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(0%);
   }
 }

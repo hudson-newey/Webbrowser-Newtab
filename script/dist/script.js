@@ -34,7 +34,9 @@ var getCookie = function (cname) {
     }
     return undefined;
 };
-var doesExist = function (value) { return value !== undefined && value !== null; };
+var doesExist = function (value) {
+    return value !== undefined && value !== null;
+};
 // search functionality
 var search = function () {
     var _a;
@@ -97,12 +99,25 @@ var shouldSearch = function (event) {
         queryInstantAnswer();
     }
 };
-// user defined cards
-var addCard = function () {
-    var newCardURL = prompt("Website URL", "https://www.google.com/");
-    if (newCardURL === undefined || newCardURL === null || newCardURL === "") {
-        return;
+var shouldAddNewCardFromInput = function (event) {
+    var key = event.keyCode || event.which;
+    // the user pressed enter
+    if (key === 13) {
+        getAndAddCardFromInput();
     }
+};
+var getAndAddCardFromInput = function () {
+    var newCardUrlInput = document.getElementById("new-card-url-input");
+    if (newCardUrlInput !== undefined && newCardUrlInput !== null) {
+        if (newCardUrlInput.value !== undefined &&
+            newCardUrlInput.value !== null &&
+            newCardUrlInput.value !== "") {
+            addCard(newCardUrlInput.value);
+        }
+    }
+};
+// user defined cards
+var addCard = function (newCardURL) {
     // check that the URL is valid
     var foundSupportedProtocol = false;
     SUPPORTED_PROTOCOLS.forEach(function (protocol) {
@@ -211,7 +226,7 @@ var createCards = function () {
         });
     }
     // "plus card" card
-    createCard("#", "https://cdn.iconscout.com/icon/free/png-256/add-plus-3114469-2598247.png", function () { return addCard(); }, false);
+    createCard("#", "https://cdn.iconscout.com/icon/free/png-256/add-plus-3114469-2598247.png", function () { return showCardInput(); }, false);
 };
 var setInstantAnswersSettingCheckbox = function (value) {
     var instantAnswersSettingId = "show-instant-answers-setting";
@@ -263,7 +278,9 @@ var updateTime = function () {
     var timeElement = document.getElementById("time");
     if (timeElement !== null) {
         var dateObject = new Date();
-        var currentTime = (dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours()) + ":" + dateObject.getMinutes();
+        var currentTime = (dateObject.getHours() > 12
+            ? dateObject.getHours() - 12
+            : dateObject.getHours()) + ":" + dateObject.getMinutes();
         // format time correctly by adding leading zeros
         var hour = currentTime.split(":")[0];
         var minute = currentTime.split(":")[1];
@@ -304,7 +321,9 @@ var queryInstantAnswer = function () {
             .then(function (response) { return response.json(); })
             .then(function (json) {
             var instantAnswer = json.AbstractText;
-            if (instantAnswer !== undefined && instantAnswer !== null && instantAnswer !== "") {
+            if (instantAnswer !== undefined &&
+                instantAnswer !== null &&
+                instantAnswer !== "") {
                 var instantAnswerBox = document.getElementById("instant-answer-box");
                 if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
                     console.log(instantAnswer);
@@ -326,6 +345,22 @@ var removeInstantAnswer = function () {
     if (instantAnswersBox !== undefined && instantAnswersBox !== null) {
         instantAnswersBox.innerText = "";
     }
+};
+var updateCardInputDisplay = function (newValue) {
+    var commandPallet = document.getElementById("command-pallet-container");
+    if (commandPallet !== undefined && commandPallet !== null) {
+        commandPallet.style.display = newValue;
+    }
+    var newCardUrlInput = document.getElementById("new-card-url-input");
+    if (newCardUrlInput !== undefined && newCardUrlInput !== null) {
+        newCardUrlInput.value = "";
+    }
+};
+var hideCardInput = function () {
+    updateCardInputDisplay("none");
+};
+var showCardInput = function () {
+    updateCardInputDisplay("block");
 };
 // gradient logic
 var init = function () {

@@ -15,7 +15,11 @@ const SUPPORTED_PROTOCOLS = [
 ];
 
 // helper functions
-const setCookie = (cookieName: string, cookieContent: string, exDays: number = 365): void => {
+const setCookie = (
+  cookieName: string,
+  cookieContent: string,
+  exDays: number = 365
+): void => {
   const dateObject = new Date();
   dateObject.setTime(dateObject.getTime() + exDays * 24 * 60 * 60 * 1000);
   let expires = dateObject.toUTCString();
@@ -38,12 +42,14 @@ const getCookie = (cname: string): string | undefined => {
   return undefined;
 };
 
-const doesExist = (value: any): boolean => value !== undefined && value !== null;
+const doesExist = (value: any): boolean =>
+  value !== undefined && value !== null;
 
 // search functionality
 const search = (): void => {
-  const searchTerm: string | null = (document.getElementById("search-box") as HTMLInputElement)
-    ?.value;
+  const searchTerm: string | null = (
+    document.getElementById("search-box") as HTMLInputElement
+  )?.value;
   let searching = false;
 
   if (searchTerm !== null) {
@@ -70,7 +76,9 @@ const constructSearchQuery = (searchTerm: string): string => {
   const defaultSearchEngine = "https://www.google.com/search?q=";
   const searchEngineSettingId = "search-engines";
 
-  const searchEngineSetting = document.getElementById(searchEngineSettingId) as HTMLSelectElement;
+  const searchEngineSetting = document.getElementById(
+    searchEngineSettingId
+  ) as HTMLSelectElement;
 
   if (doesExist(searchEngineSetting)) {
     return searchEngineSetting.value + searchTerm;
@@ -82,10 +90,15 @@ const constructSearchQuery = (searchTerm: string): string => {
 const changeSearchEngine = (): void => {
   const searchEngineSettingId = "search-engines";
 
-  const searchEngineSetting = document.getElementById(searchEngineSettingId) as HTMLSelectElement;
+  const searchEngineSetting = document.getElementById(
+    searchEngineSettingId
+  ) as HTMLSelectElement;
 
   if (doesExist(searchEngineSetting)) {
-    setCookie(SEARCH_ENGINE_COOKIE_NAME, searchEngineSetting.selectedIndex.toString());
+    setCookie(
+      SEARCH_ENGINE_COOKIE_NAME,
+      searchEngineSetting.selectedIndex.toString()
+    );
   }
 };
 
@@ -97,7 +110,10 @@ const changeInstantAnswersSetting = (): void => {
   ) as HTMLInputElement;
 
   if (doesExist(instantAnswersSettingBox)) {
-    setCookie(INSTANT_ANSWERS_COOKIE_NAME, instantAnswersSettingBox.checked ? "1" : "0");
+    setCookie(
+      INSTANT_ANSWERS_COOKIE_NAME,
+      instantAnswersSettingBox.checked ? "1" : "0"
+    );
   }
 };
 
@@ -118,15 +134,33 @@ const shouldSearch = (event: KeyboardEvent): void => {
   }
 };
 
-// user defined cards
+const shouldAddNewCardFromInput = (event: KeyboardEvent): void => {
+  const key = event.keyCode || event.which;
 
-const addCard = (): void => {
-  const newCardURL: string | null = prompt("Website URL", "https://www.google.com/");
-
-  if (newCardURL === undefined || newCardURL === null || newCardURL === "") {
-    return;
+  // the user pressed enter
+  if (key === 13) {
+    getAndAddCardFromInput();
   }
+};
 
+const getAndAddCardFromInput = (): void => {
+  const newCardUrlInput = document.getElementById(
+    "new-card-url-input"
+  ) as HTMLInputElement;
+
+  if (newCardUrlInput !== undefined && newCardUrlInput !== null) {
+    if (
+      newCardUrlInput.value !== undefined &&
+      newCardUrlInput.value !== null &&
+      newCardUrlInput.value !== ""
+    ) {
+      addCard(newCardUrlInput.value);
+    }
+  }
+};
+
+// user defined cards
+const addCard = (newCardURL: string): void => {
   // check that the URL is valid
   let foundSupportedProtocol: boolean = false;
   SUPPORTED_PROTOCOLS.forEach((protocol) => {
@@ -223,7 +257,10 @@ const createCard = (
       ""
     )}">`;
   } else {
-    newCardLink.innerHTML = `<img src="${faviconURL}" alt="${cardURL.replace("https://", "")}">`;
+    newCardLink.innerHTML = `<img src="${faviconURL}" alt="${cardURL.replace(
+      "https://",
+      ""
+    )}">`;
   }
 
   const removeButton: HTMLElement = document.createElement("button");
@@ -257,7 +294,7 @@ const createCards = (): void => {
   createCard(
     "#",
     "https://cdn.iconscout.com/icon/free/png-256/add-plus-3114469-2598247.png",
-    () => addCard(),
+    () => showCardInput(),
     false
   );
 };
@@ -265,7 +302,9 @@ const createCards = (): void => {
 const setInstantAnswersSettingCheckbox = (value: boolean): void => {
   const instantAnswersSettingId = "show-instant-answers-setting";
 
-  const instantAnswersBox = document.getElementById(instantAnswersSettingId) as HTMLInputElement;
+  const instantAnswersBox = document.getElementById(
+    instantAnswersSettingId
+  ) as HTMLInputElement;
 
   if (doesExist(instantAnswersBox)) {
     instantAnswersBox.checked = value;
@@ -275,7 +314,9 @@ const setInstantAnswersSettingCheckbox = (value: boolean): void => {
 const setSearchEngineSettings = (index: number): void => {
   const searchEngineSettingId = "search-engines";
 
-  const searchEngineSetting = document.getElementById(searchEngineSettingId) as HTMLSelectElement;
+  const searchEngineSetting = document.getElementById(
+    searchEngineSettingId
+  ) as HTMLSelectElement;
 
   if (doesExist(searchEngineSetting)) {
     searchEngineSetting.selectedIndex = index;
@@ -324,7 +365,9 @@ const updateTime = (): void => {
   if (timeElement !== null) {
     const dateObject = new Date();
     let currentTime = `${
-      dateObject.getHours() > 12 ? dateObject.getHours() - 12 : dateObject.getHours()
+      dateObject.getHours() > 12
+        ? dateObject.getHours() - 12
+        : dateObject.getHours()
     }:${dateObject.getMinutes()}`;
 
     // format time correctly by adding leading zeros
@@ -364,25 +407,36 @@ const queryInstantAnswer = (): void => {
   if (inputBox !== null && inputBox !== undefined && inputBox.value !== "") {
     const query = inputBox.value;
 
-    const response = fetch(`https://api.duckduckgo.com/?q=${query}&format=json`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    })
+    const response = fetch(
+      `https://api.duckduckgo.com/?q=${query}&format=json`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((json) => {
         const instantAnswer = json.AbstractText;
 
-        if (instantAnswer !== undefined && instantAnswer !== null && instantAnswer !== "") {
-          const instantAnswerBox = document.getElementById("instant-answer-box") as HTMLElement;
+        if (
+          instantAnswer !== undefined &&
+          instantAnswer !== null &&
+          instantAnswer !== ""
+        ) {
+          const instantAnswerBox = document.getElementById(
+            "instant-answer-box"
+          ) as HTMLElement;
 
           if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
             console.log(instantAnswer);
             instantAnswerBox.innerHTML = instantAnswer;
           }
         } else {
-          const instantAnswerBox = document.getElementById("instant-answer-box") as HTMLElement;
+          const instantAnswerBox = document.getElementById(
+            "instant-answer-box"
+          ) as HTMLElement;
 
           if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
             console.log(instantAnswer);
@@ -401,11 +455,36 @@ const removeInstantAnswer = (): void => {
   }
 };
 
+const updateCardInputDisplay = (newValue: string): void => {
+  const commandPallet = document.getElementById("command-pallet-container");
+
+  if (commandPallet !== undefined && commandPallet !== null) {
+    commandPallet.style.display = newValue;
+  }
+
+  const newCardUrlInput = document.getElementById(
+    "new-card-url-input"
+  ) as HTMLInputElement;
+
+  if (newCardUrlInput !== undefined && newCardUrlInput !== null) {
+    newCardUrlInput.value = "";
+  }
+};
+
+const hideCardInput = (): void => {
+  updateCardInputDisplay("none");
+};
+
+const showCardInput = (): void => {
+  updateCardInputDisplay("block");
+};
+
 // gradient logic
 
 const init = (): void => {
   const currentDate = new Date().toISOString().slice(0, 10);
-  const titleElement: HTMLElement | null = document.getElementById("main-title");
+  const titleElement: HTMLElement | null =
+    document.getElementById("main-title");
 
   if (titleElement !== null) {
     titleElement.innerHTML = currentDate;
