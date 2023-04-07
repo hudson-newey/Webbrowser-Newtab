@@ -2,6 +2,7 @@
 const CARD_COOKIE_NAME = "cards";
 const INSTANT_ANSWERS_COOKIE_NAME = "ia-setting";
 const SEARCH_ENGINE_COOKIE_NAME = "search-engine-setting";
+const CALENDAR_PROVIDER_COOKIE_NAME = "calendar-provider-setting";
 
 const KNOWN_TLDS = [".com", ".net", ".gov", ".org", ".eud"];
 
@@ -101,6 +102,22 @@ const changeSearchEngine = (): void => {
     );
   }
 };
+
+const changeCalendarProvider = (): void => {
+  const calendarProviderSettingId = "calendar-providers";
+
+  const calendarProviderSetting = document.getElementById(
+    calendarProviderSettingId
+  ) as HTMLSelectElement;
+
+  if (doesExist(calendarProviderSetting)) {
+    console.log(calendarProviderSetting.selectedIndex);
+    setCookie(
+      CALENDAR_PROVIDER_COOKIE_NAME,
+      calendarProviderSetting.selectedIndex.toString()
+    );
+  }
+}
 
 const changeInstantAnswersSetting = (): void => {
   const instantAnswersSettingId = "show-instant-answers-setting";
@@ -323,6 +340,18 @@ const setSearchEngineSettings = (index: number): void => {
   }
 };
 
+const setCalendarProviderSettings = (index: number): void => {
+  const calendarProviderSettingId = "calendar-providers";
+
+  const calendarProviderSetting = document.getElementById(
+    calendarProviderSettingId
+  ) as HTMLSelectElement;
+
+  if (doesExist(calendarProviderSetting)) {
+    calendarProviderSetting.selectedIndex = index;
+  }
+}
+
 // saves the user settings through cookies
 const initSettings = (): void => {
   // instant answers settings
@@ -338,6 +367,14 @@ const initSettings = (): void => {
     setSearchEngineSettings(+selectedSearchEngine);
   } else {
     setSearchEngineSettings(0);
+  }
+
+  // calendar service settings
+  const selectedCalendarProvider = getCookie(CALENDAR_PROVIDER_COOKIE_NAME);
+  if (selectedCalendarProvider !== undefined) {
+    setCalendarProviderSettings(+selectedCalendarProvider);
+  } else {
+    setCalendarProviderSettings(0);
   }
 };
 

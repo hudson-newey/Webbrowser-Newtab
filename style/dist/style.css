@@ -104,7 +104,8 @@ input[type=text]:focus {
   color: white;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   left: 0% !important;
-  text-align: justify center;
+  text-align: justify;
+  text-align-last: center;
   margin: 0 auto;
   padding-top: 40px;
   width: 80%;

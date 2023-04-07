@@ -24,7 +24,10 @@
   <body>
     <div id="gradient">
       <div class="time-container">
-        <h1 id="time" onclick="document.location.href=document.getElementById('calendar-service').value"></h1>
+        <h1
+          id="time"
+          onclick="document.location.href=document.getElementById('calendar-providers').value"
+        ></h1>
       </div>
 
       <div class="content">
@@ -56,46 +59,40 @@
 
         <div class="setting">
           <strong>Search Engine</strong><br />
-          <select id="search-engines" class="settings-dropdown" onchange="changeSearchEngine();">
-            <option
-              class="search-engine"
-              value="https://www.google.com/search?q="
-              selected
-            >
+          <select
+            id="search-engines"
+            class="settings-dropdown"
+            onchange="changeSearchEngine();"
+          >
+            <option value="https://www.google.com/search?q=" selected>
               Google
             </option>
-            <option
-              class="search-engine"
-              value="https://www.bing.com/search?q="
-            >
-              Bing
-            </option>
-            <option class="search-engine" value="https://duckduckgo.com/?q=">
-              DuckDuckGo
-            </option>
-            <option
-              class="search-engine"
-              value="https://www.ecosia.org/search?q="
-            >
-              Ecosia
-            </option>
-            <option
-              class="search-engine"
-              value="https://search.brave.com/search?q="
-            >
+            <option value="https://www.bing.com/search?q=">Bing</option>
+            <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+            <option value="https://www.ecosia.org/search?q=">Ecosia</option>
+            <option value="https://search.brave.com/search?q=">
               Brave Search
             </option>
           </select>
         </div>
 
         <div class="setting">
-          <strong>Calendar Provider (Beta)</strong><br />
-          <select id="calendar-service" class="settings-dropdown">
-            <option value="https://calendar.google.com/" class="search-engine" selected>
+          <strong>Calendar Provider</strong><br />
+          <select
+            id="calendar-providers"
+            class="settings-dropdown"
+            onchange="changeCalendarProvider();"
+          >
+            <option value="https://calendar.google.com" selected>
               Google Calendar
             </option>
-            <option value="https://calendar.protonmail.com/" class="search-engine">
+            <option value="https://calendar.protonmail.com">
               Proton Calendar
+            </option>
+            <option value="https://skiff.com/calendar">Skiff Calendar</option>
+            <option value="https://calendar.yahoo.com">Yahoo Calendar</option>
+            <option value="https://calendar.live.com">
+              Microsoft Calendar
             </option>
           </select>
         </div>

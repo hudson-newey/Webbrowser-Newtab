@@ -2,6 +2,7 @@
 var CARD_COOKIE_NAME = "cards";
 var INSTANT_ANSWERS_COOKIE_NAME = "ia-setting";
 var SEARCH_ENGINE_COOKIE_NAME = "search-engine-setting";
+var CALENDAR_PROVIDER_COOKIE_NAME = "calendar-provider-setting";
 var KNOWN_TLDS = [".com", ".net", ".gov", ".org", ".eud"];
 var SUPPORTED_PROTOCOLS = [
     "https://",
@@ -75,6 +76,14 @@ var changeSearchEngine = function () {
     var searchEngineSetting = document.getElementById(searchEngineSettingId);
     if (doesExist(searchEngineSetting)) {
         setCookie(SEARCH_ENGINE_COOKIE_NAME, searchEngineSetting.selectedIndex.toString());
+    }
+};
+var changeCalendarProvider = function () {
+    var calendarProviderSettingId = "calendar-providers";
+    var calendarProviderSetting = document.getElementById(calendarProviderSettingId);
+    if (doesExist(calendarProviderSetting)) {
+        console.log(calendarProviderSetting.selectedIndex);
+        setCookie(CALENDAR_PROVIDER_COOKIE_NAME, calendarProviderSetting.selectedIndex.toString());
     }
 };
 var changeInstantAnswersSetting = function () {
@@ -242,6 +251,13 @@ var setSearchEngineSettings = function (index) {
         searchEngineSetting.selectedIndex = index;
     }
 };
+var setCalendarProviderSettings = function (index) {
+    var calendarProviderSettingId = "calendar-providers";
+    var calendarProviderSetting = document.getElementById(calendarProviderSettingId);
+    if (doesExist(calendarProviderSetting)) {
+        calendarProviderSetting.selectedIndex = index;
+    }
+};
 // saves the user settings through cookies
 var initSettings = function () {
     // instant answers settings
@@ -258,6 +274,14 @@ var initSettings = function () {
     }
     else {
         setSearchEngineSettings(0);
+    }
+    // calendar service settings
+    var selectedCalendarProvider = getCookie(CALENDAR_PROVIDER_COOKIE_NAME);
+    if (selectedCalendarProvider !== undefined) {
+        setCalendarProviderSettings(+selectedCalendarProvider);
+    }
+    else {
+        setCalendarProviderSettings(0);
     }
 };
 var setSettingsPaneDisplayStyle = function (style) {
