@@ -79,7 +79,7 @@ input[type=text]:focus {
   position: relative;
   width: 50%;
   text-align: center;
-  top: 150px;
+  top: 300px;
 }
 
 .time-container {
@@ -104,7 +104,7 @@ input[type=text]:focus {
   color: white;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   left: 0% !important;
-  text-align: justify;
+  text-align: justify center;
   margin: 0 auto;
   padding-top: 40px;
   width: 80%;
@@ -214,7 +214,7 @@ input[type=text]:focus {
   position: absolute;
   left: 70%;
   top: 0px;
-  height: 95%;
+  height: calc(95% - 1px);
   width: calc(25% + 15px);
   background-color: #1e1e1e;
   padding: 40px;
@@ -232,7 +232,7 @@ input[type=text]:focus {
   margin-top: 40px;
 }
 
-#search-engines {
+.settings-dropdown {
   position: relative;
   margin-top: 15px;
   color: white;
@@ -242,7 +242,7 @@ input[type=text]:focus {
   border-radius: 0.5rem;
   padding: 0.25rem;
 }
-#search-engines:focus {
+.settings-dropdown:focus {
   border-color: #ff6961;
   background-color: black;
 }
@@ -259,13 +259,14 @@ input[type=text]:focus {
 .command-pallet > .action-buttons {
   position: absolute;
   left: 50%;
-  top: calc(60% + 40px);
+  top: 50%;
   transform: translate(-50%, -50%);
 }
-.command-pallet > input {
+.command-pallet > #new-card-url-input {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: calc(50% - 100px);
+  width: 45%;
   transform: translate(-50%, -50%);
 }
 

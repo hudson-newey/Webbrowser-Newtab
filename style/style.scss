@@ -93,7 +93,7 @@ input[type="text"] {
   position: relative;
   width: 50%;
   text-align: center;
-  top: 150px;
+  top: 300px;
 }
 
 .time-container {
@@ -121,7 +121,7 @@ input[type="text"] {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   left: 0% !important;
-  text-align: justify;
+  text-align: justify center;
   margin: 0 auto;
   padding-top: 40px;
   width: 80%;
@@ -217,6 +217,8 @@ input[type="text"] {
   }
 }
 
+
+
 .corner {
   position: absolute;
   top: 20px;
@@ -240,7 +242,7 @@ input[type="text"] {
   position: absolute;
   left: 70%;
   top: 0px;
-  height: 95%;
+  height: calc(95% - 1px);
   width: calc(25% + 15px);
   background-color: $tray-background-color;
   padding: 40px;
@@ -261,7 +263,7 @@ input[type="text"] {
   }
 }
 
-#search-engines {
+.settings-dropdown {
   position: relative;
   margin-top: 15px;
   color: $font-color;
@@ -289,14 +291,15 @@ input[type="text"] {
   & > .action-buttons {
     position: absolute;
     left: 50%;
-    top: calc(60% + 40px);
+    top: 50%;
     transform: translate(-50%, -50%);
   }
 
-  & > input {
+  & > #new-card-url-input {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: calc(50% - 100px);
+    width: 45%;
     transform: translate(-50%, -50%);
   }
 }

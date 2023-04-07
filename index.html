@@ -24,7 +24,7 @@
   <body>
     <div id="gradient">
       <div class="time-container">
-        <h1 id="time"></h1>
+        <h1 id="time" onclick="document.location.href=document.getElementById('calendar-service').value"></h1>
       </div>
 
       <div class="content">
@@ -56,7 +56,7 @@
 
         <div class="setting">
           <strong>Search Engine</strong><br />
-          <select id="search-engines" onchange="changeSearchEngine();">
+          <select id="search-engines" class="settings-dropdown" onchange="changeSearchEngine();">
             <option
               class="search-engine"
               value="https://www.google.com/search?q="
@@ -89,6 +89,18 @@
         </div>
 
         <div class="setting">
+          <strong>Calendar Provider (Beta)</strong><br />
+          <select id="calendar-service" class="settings-dropdown">
+            <option value="https://calendar.google.com/" class="search-engine" selected>
+              Google Calendar
+            </option>
+            <option value="https://calendar.protonmail.com/" class="search-engine">
+              Proton Calendar
+            </option>
+          </select>
+        </div>
+
+        <div class="setting">
           <input
             id="show-instant-answers-setting"
             type="checkbox"
@@ -109,7 +121,9 @@
         />
 
         <div class="action-buttons">
-          <button class="btn--large" onclick="getAndAddCardFromInput();">Add Card</button>
+          <button class="btn--large" onclick="getAndAddCardFromInput();">
+            Add Card
+          </button>
           <button class="btn--large" onclick="hideCardInput();">Cancel</button>
         </div>
       </div>
