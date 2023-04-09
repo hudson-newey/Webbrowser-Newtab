@@ -195,7 +195,7 @@ var createCard = function (cardURL, img, eventFunction, canRemove) {
     }
     var newCardObj = document.createElement("div");
     newCardObj.id = "" + uniqueId;
-    newCardObj.className = "fav";
+    newCardObj.className = "fav draggable";
     var newCardLink = document.createElement("a");
     newCardLink.href = cardURL;
     if (doesExist(eventFunction)) {

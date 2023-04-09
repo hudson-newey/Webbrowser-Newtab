@@ -193,6 +193,14 @@ input[type=text]:focus {
   margin: 0px;
 }
 
+.dragging {
+  background-color: rgba(255, 105, 97, 0.15) !important;
+  scale: 1.22;
+}
+.dragging .removeCardButton {
+  display: none !important;
+}
+
 .corner {
   position: absolute;
   top: 20px;

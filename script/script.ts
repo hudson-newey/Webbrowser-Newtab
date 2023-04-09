@@ -257,7 +257,7 @@ const createCard = (
 
   const newCardObj = document.createElement("div");
   newCardObj.id = `${uniqueId}`;
-  newCardObj.className = "fav";
+  newCardObj.className = "fav draggable";
   const newCardLink = document.createElement("a");
   newCardLink.href = cardURL;
 
