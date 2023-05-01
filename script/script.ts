@@ -6,13 +6,14 @@ const CALENDAR_PROVIDER_COOKIE_NAME = "calendar-provider-setting";
 
 const KNOWN_TLDS = [".com", ".net", ".gov", ".org", ".eud"];
 
+const DEFAULT_PROTOCOL = "https://";
 const SUPPORTED_PROTOCOLS = [
   "https://",
   "http://",
   "ftp://",
   "file:///",
   "chrome-extension://",
-  "",
+  "#",
 ];
 
 // helper functions
@@ -57,7 +58,7 @@ const search = (): void => {
     // test if it has a known top level domain
     KNOWN_TLDS.forEach((tld) => {
       if (searchTerm.includes(tld)) {
-        document.location.href = `https://${searchTerm}`;
+        document.location.href = DEFAULT_PROTOCOL + searchTerm;
         searching = true;
       }
     });
@@ -187,8 +188,7 @@ const addCard = (newCardURL: string): void => {
   });
 
   if (!foundSupportedProtocol) {
-    alert("Web protocol not supported...");
-    return;
+    newCardURL = DEFAULT_PROTOCOL + newCardURL;
   }
 
   const existingCards = getCookie(CARD_COOKIE_NAME);
@@ -259,7 +259,19 @@ const createCard = (
   newCardObj.id = `${uniqueId}`;
   newCardObj.className = "fav draggable";
   const newCardLink = document.createElement("a");
-  newCardLink.href = cardURL;
+
+  let foundSupportedProtocol: boolean = false;
+  SUPPORTED_PROTOCOLS.forEach((protocol) => {
+    if (cardURL.includes(protocol)) {
+      foundSupportedProtocol = true;
+    }
+  });
+
+  if (!foundSupportedProtocol) {
+    newCardLink.href = DEFAULT_PROTOCOL + cardURL;
+  } else {
+    newCardLink.href = cardURL;
+  }
 
   if (doesExist(eventFunction)) {
     newCardObj.onclick = function () {

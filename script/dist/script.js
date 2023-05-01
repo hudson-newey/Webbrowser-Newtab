@@ -4,13 +4,14 @@ var INSTANT_ANSWERS_COOKIE_NAME = "ia-setting";
 var SEARCH_ENGINE_COOKIE_NAME = "search-engine-setting";
 var CALENDAR_PROVIDER_COOKIE_NAME = "calendar-provider-setting";
 var KNOWN_TLDS = [".com", ".net", ".gov", ".org", ".eud"];
+var DEFAULT_PROTOCOL = "https://";
 var SUPPORTED_PROTOCOLS = [
     "https://",
     "http://",
     "ftp://",
     "file:///",
     "chrome-extension://",
-    "",
+    "#",
 ];
 // helper functions
 var setCookie = function (cookieName, cookieContent, exDays) {
@@ -47,7 +48,7 @@ var search = function () {
         // test if it has a known top level domain
         KNOWN_TLDS.forEach(function (tld) {
             if (searchTerm.includes(tld)) {
-                document.location.href = "https://" + searchTerm;
+                document.location.href = DEFAULT_PROTOCOL + searchTerm;
                 searching = true;
             }
         });
@@ -135,8 +136,7 @@ var addCard = function (newCardURL) {
         }
     });
     if (!foundSupportedProtocol) {
-        alert("Web protocol not supported...");
-        return;
+        newCardURL = DEFAULT_PROTOCOL + newCardURL;
     }
     var existingCards = getCookie(CARD_COOKIE_NAME);
     // check that there are no duplicates
@@ -197,7 +197,18 @@ var createCard = function (cardURL, img, eventFunction, canRemove) {
     newCardObj.id = "" + uniqueId;
     newCardObj.className = "fav draggable";
     var newCardLink = document.createElement("a");
-    newCardLink.href = cardURL;
+    var foundSupportedProtocol = false;
+    SUPPORTED_PROTOCOLS.forEach(function (protocol) {
+        if (cardURL.includes(protocol)) {
+            foundSupportedProtocol = true;
+        }
+    });
+    if (!foundSupportedProtocol) {
+        newCardLink.href = DEFAULT_PROTOCOL + cardURL;
+    }
+    else {
+        newCardLink.href = cardURL;
+    }
     if (doesExist(eventFunction)) {
         newCardObj.onclick = function () {
             eventFunction();
