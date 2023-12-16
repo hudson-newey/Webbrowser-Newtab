@@ -64,8 +64,8 @@ var getHistory = function () {
     var history = localStorage.getItem(searchHistoryKey);
     if (history) {
         searchHistoryQueries.push.apply(searchHistoryQueries, history.split("|"));
-        searchHistoryQueries.push.apply(searchHistoryQueries, commonWebsites);
     }
+    searchHistoryQueries.push.apply(searchHistoryQueries, commonWebsites);
 };
 var searchHistory = function (searchTerm) {
     return searchHistoryQueries

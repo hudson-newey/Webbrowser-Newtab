@@ -65,10 +65,12 @@ const addToSearchHistory = (searchTerm: string) => {
 
 const getHistory = (): void => {
   const history = localStorage.getItem(searchHistoryKey);
+  
   if (history) {
     searchHistoryQueries.push(...history.split("|"));
-    searchHistoryQueries.push(...commonWebsites);
   }
+  
+  searchHistoryQueries.push(...commonWebsites);
 };
 
 const searchHistory = (searchTerm: string): string[] => {
