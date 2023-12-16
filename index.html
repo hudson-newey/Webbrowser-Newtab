@@ -22,7 +22,7 @@
   </head>
 
   <body>
-    <div id="gradient">
+    <div id="gradient" class="background">
       <div class="time-container">
         <h1
           id="time"
@@ -95,6 +95,14 @@
               Microsoft Calendar
             </option>
           </select>
+        </div>
+
+        <div class="setting">
+          <strong>Background Image Url</strong>
+          <p>(empty for gradient)</p>
+
+          <input id="background-image-input" type="text">
+          <button onclick="updateBackground()">Update</button>
         </div>
 
         <div class="setting">

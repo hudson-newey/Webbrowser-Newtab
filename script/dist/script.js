@@ -397,6 +397,30 @@ var hideCardInput = function () {
 var showCardInput = function () {
     updateCardInputDisplay("block");
 };
+var updateBackground = function () {
+    var inputElement = document.getElementById("background-image-input");
+    var value = inputElement === null || inputElement === void 0 ? void 0 : inputElement.value;
+    if (value) {
+        localStorage.setItem("background-image", value);
+    }
+    else {
+        localStorage.removeItem("background-image");
+    }
+    updateBackgroundElements();
+    window.location.reload();
+};
+var updateBackgroundElements = function () {
+    var value = localStorage.getItem("background-image");
+    if (value) {
+        var inputElement = document.getElementById("background-image-input");
+        var backgroundElement = document.getElementById("gradient");
+        if (inputElement !== null) {
+            inputElement.innerText = value;
+        }
+        backgroundElement.id = "background-image";
+        backgroundElement.style.backgroundImage = "url(" + value + ")";
+    }
+};
 // gradient logic
 var init = function () {
     var currentDate = new Date().toISOString().slice(0, 10);
@@ -406,6 +430,7 @@ var init = function () {
     }
     createCards();
     initSettings();
+    updateBackgroundElements();
     loop();
 };
 var loop = function () {

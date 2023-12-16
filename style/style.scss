@@ -11,12 +11,14 @@ $animation: all 0.15s ease;
 $font-size: 2.5rem;
 $font-family: Arial, Helvetica, sans-serif;
 
-#gradient {
+.background {
   position: fixed;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -24,7 +26,7 @@ $font-family: Arial, Helvetica, sans-serif;
 html {
   position: relative;
   background-color: $background-color;
-  background-size: cover;
+  background-size: contain;
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -46,7 +48,7 @@ button {
   border-radius: $curve-amount;
   border-style: none;
   border-width: 1px;
-  font-size: $font-size / 3;
+  font-size: $font-size / 2.5;
   padding: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -73,11 +75,9 @@ input[type="text"] {
   position: relative;
   border-radius: $curve-amount;
   color: $font-color;
-  height: 40px;
-  width: 90%;
-  font-size: 38px;
+  
   font-family: $font-family;
-  padding: 10px;
+  padding: 1rem;
   border-width: 2px;
   border-color: $card-background-focused;
   background-color: $card-background;
@@ -88,6 +88,17 @@ input[type="text"] {
   &:focus {
     background-color: $card-background-focused;
   }
+}
+
+#search-box {
+  height: 40px;
+  width: 90%;
+  font-size: 38px;
+}
+
+#background-image-input {
+  width: 60%;
+  font-size: $font-size / 2.5;
 }
 
 .content {

@@ -118,7 +118,7 @@ const changeCalendarProvider = (): void => {
       calendarProviderSetting.selectedIndex.toString()
     );
   }
-}
+};
 
 const changeInstantAnswersSetting = (): void => {
   const instantAnswersSettingId = "show-instant-answers-setting";
@@ -362,7 +362,7 @@ const setCalendarProviderSettings = (index: number): void => {
   if (doesExist(calendarProviderSetting)) {
     calendarProviderSetting.selectedIndex = index;
   }
-}
+};
 
 // saves the user settings through cookies
 const initSettings = (): void => {
@@ -528,8 +528,41 @@ const showCardInput = (): void => {
   updateCardInputDisplay("block");
 };
 
-// gradient logic
+const updateBackground = (): void => {
+  const inputElement: HTMLInputElement | null = document.getElementById(
+    "background-image-input"
+  ) as HTMLInputElement;
+  const value = inputElement?.value;
 
+  if (value) {
+    localStorage.setItem("background-image", value);
+  } else {
+    localStorage.removeItem("background-image");
+  }
+
+  updateBackgroundElements();
+  window.location.reload();
+};
+
+const updateBackgroundElements = (): void => {
+  const value = localStorage.getItem("background-image");
+
+  if (value) {
+    const inputElement: HTMLElement | null = document.getElementById(
+      "background-image-input"
+    );
+    const backgroundElement: any = document.getElementById("gradient");
+
+    if (inputElement !== null) {
+      inputElement.innerText = value;
+    }
+
+    backgroundElement.id = "background-image";
+    backgroundElement.style.backgroundImage = `url(${value})`;
+  }
+};
+
+// gradient logic
 const init = (): void => {
   const currentDate = new Date().toISOString().slice(0, 10);
   const titleElement: HTMLElement | null =
@@ -541,6 +574,8 @@ const init = (): void => {
 
   createCards();
   initSettings();
+
+  updateBackgroundElements();
 
   loop();
 };
