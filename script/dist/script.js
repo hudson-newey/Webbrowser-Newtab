@@ -43,13 +43,19 @@ var doesExist = function (value) {
 var search = function () {
     var _a;
     var searchTerm = (_a = document.getElementById("search-box")) === null || _a === void 0 ? void 0 : _a.value;
+    addToSearchHistory(searchTerm);
     var searching = false;
-    if (searchTerm !== null) {
+    if (searchTerm) {
         // test if it has a known top level domain
         KNOWN_TLDS.forEach(function (tld) {
             if (searchTerm.includes(tld)) {
-                document.location.href = DEFAULT_PROTOCOL + searchTerm;
                 searching = true;
+                if (searchTerm.includes("://")) {
+                    document.location.href = searchTerm;
+                }
+                else {
+                    document.location.href = DEFAULT_PROTOCOL + searchTerm;
+                }
             }
         });
         if (searching)
@@ -83,7 +89,6 @@ var changeCalendarProvider = function () {
     var calendarProviderSettingId = "calendar-providers";
     var calendarProviderSetting = document.getElementById(calendarProviderSettingId);
     if (doesExist(calendarProviderSetting)) {
-        console.log(calendarProviderSetting.selectedIndex);
         setCookie(CALENDAR_PROVIDER_COOKIE_NAME, calendarProviderSetting.selectedIndex.toString());
     }
 };
@@ -106,7 +111,13 @@ var shouldSearch = function (event) {
         }
         // the user did not press enter
         // we should therefore query the DuckDuckgo API for an instant answer
-        queryInstantAnswer();
+        var inputVal = document.getElementById("search-box").value;
+        if (inputVal) {
+            queryInstantAnswer();
+        }
+        else {
+            clearHistory();
+        }
     }
 };
 var shouldAddNewCardFromInput = function (event) {
@@ -171,7 +182,6 @@ var deleteCard = function (id, cardURL) {
                 var newCards_1 = currentCards;
                 SUPPORTED_PROTOCOLS.forEach(function (protocol) {
                     var scanningContent = "" + protocol + cardURL;
-                    console.log(scanningContent);
                     newCards_1 = newCards_1.replace("," + scanningContent, "");
                     newCards_1 = newCards_1.replace(scanningContent, "");
                 });
@@ -361,14 +371,12 @@ var queryInstantAnswer = function () {
                 instantAnswer !== "") {
                 var instantAnswerBox = document.getElementById("instant-answer-box");
                 if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
-                    console.log(instantAnswer);
                     instantAnswerBox.innerHTML = instantAnswer;
                 }
             }
             else {
                 var instantAnswerBox = document.getElementById("instant-answer-box");
                 if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
-                    console.log(instantAnswer);
                     instantAnswerBox.innerHTML = "";
                 }
             }

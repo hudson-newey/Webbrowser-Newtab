@@ -52,14 +52,21 @@ const search = (): void => {
   const searchTerm: string | null = (
     document.getElementById("search-box") as HTMLInputElement
   )?.value;
+
+  addToSearchHistory(searchTerm);
+
   let searching = false;
 
-  if (searchTerm !== null) {
+  if (searchTerm) {
     // test if it has a known top level domain
     KNOWN_TLDS.forEach((tld) => {
       if (searchTerm.includes(tld)) {
-        document.location.href = DEFAULT_PROTOCOL + searchTerm;
         searching = true;
+        if (searchTerm.includes("://")) {
+          document.location.href = searchTerm;
+        } else {
+          document.location.href = DEFAULT_PROTOCOL + searchTerm;
+        }
       }
     });
 
@@ -112,7 +119,6 @@ const changeCalendarProvider = (): void => {
   ) as HTMLSelectElement;
 
   if (doesExist(calendarProviderSetting)) {
-    console.log(calendarProviderSetting.selectedIndex);
     setCookie(
       CALENDAR_PROVIDER_COOKIE_NAME,
       calendarProviderSetting.selectedIndex.toString()
@@ -148,7 +154,15 @@ const shouldSearch = (event: KeyboardEvent): void => {
 
     // the user did not press enter
     // we should therefore query the DuckDuckgo API for an instant answer
-    queryInstantAnswer();
+    const inputVal = (document.getElementById(
+      "search-box"
+    ) as HTMLInputElement).value;
+
+    if (inputVal) {
+      queryInstantAnswer();
+    } else {
+      clearHistory();
+    }
   }
 };
 
@@ -228,7 +242,6 @@ const deleteCard = (id: number, cardURL: string): void => {
 
         SUPPORTED_PROTOCOLS.forEach((protocol) => {
           const scanningContent = `${protocol}${cardURL}`;
-          console.log(scanningContent);
           newCards = newCards.replace(`,${scanningContent}`, "");
           newCards = newCards.replace(scanningContent, "");
         });
@@ -479,7 +492,6 @@ const queryInstantAnswer = (): void => {
           ) as HTMLElement;
 
           if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
-            console.log(instantAnswer);
             instantAnswerBox.innerHTML = instantAnswer;
           }
         } else {
@@ -488,7 +500,6 @@ const queryInstantAnswer = (): void => {
           ) as HTMLElement;
 
           if (instantAnswerBox !== null && instantAnswerBox !== undefined) {
-            console.log(instantAnswer);
             instantAnswerBox.innerHTML = "";
           }
         }

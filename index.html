@@ -24,10 +24,10 @@
   <body>
     <div id="gradient" class="background">
       <div class="time-container">
-        <h1
+        <time
           id="time"
           onclick="document.location.href=document.getElementById('calendar-providers').value"
-        ></h1>
+        ></time>
       </div>
 
       <div class="content">
@@ -40,6 +40,10 @@
           autocomplete="off"
           autofocus
         />
+
+        <div id="search-history">
+        </div>
+
         <p id="instant-answer-box"></p>
       </div>
 
@@ -142,6 +146,7 @@
         charset="utf-8"
       ></script>
       <script src="./script/dist/script.js"></script>
+      <script src="./script/dist/search.js"></script>
       <script src="./script/dist/draggable.js"></script>
     </footer>
   </body>
