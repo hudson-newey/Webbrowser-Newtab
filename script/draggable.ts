@@ -2,7 +2,7 @@ const draggableItems: NodeListOf<HTMLElement> = document.querySelectorAll(".drag
 const containers = document.querySelectorAll(".container");
 
 draggableItems.forEach((container: HTMLElement) => {
-  container.addEventListener("dragstart", (e: any) => {
+  container.addEventListener("dragstart", () => {
     container.classList.add("dragging");
   });
 
@@ -19,6 +19,39 @@ draggableItems.forEach((container: HTMLElement) => {
     }
 
     draggingItem.classList.remove("dragging");
+
+    const currentCardOrder = getCookie(CARD_COOKIE_NAME);
+
+    if (!currentCardOrder) return;
+    
+    const draggingCardUrl = draggingItem.querySelector("a")?.href?.replace(/\/+$/, "");
+    
+    if (!draggingCardUrl) return;
+
+    const cards = currentCardOrder.split(",");
+    const draggingCardIndex = cards.indexOf(draggingCardUrl);
+
+    if (draggingCardIndex === -1) return;
+
+    cards.splice(draggingCardIndex, 1);
+
+    // swap the cards
+    const afterElementUrl = afterElement.querySelector("a")?.href?.replace(/\/+$/, "");
+
+    if (!afterElementUrl) return;
+
+    const afterElementIndex = cards.indexOf(afterElementUrl);
+
+    
+    if (afterElementIndex === -1) {
+      // add it to the end
+      cards.push(draggingCardUrl);
+    } else {
+      cards.splice(afterElementIndex, 0, draggingCardUrl);
+    }
+
+    removeCookie(CARD_COOKIE_NAME);
+    setCookie(CARD_COOKIE_NAME, cards.join(","));
   });
 });
 
