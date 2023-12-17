@@ -100,6 +100,10 @@ var changeCalendarProvider = function () {
     var calendarProviderSetting = document.getElementById(calendarProviderSettingId);
     if (doesExist(calendarProviderSetting)) {
         setCookie(CALENDAR_PROVIDER_COOKIE_NAME, calendarProviderSetting.selectedIndex.toString());
+        var timeElement = document.getElementById("calendar-link");
+        if (timeElement !== null) {
+            timeElement.href = calendarProviderSetting.value;
+        }
     }
 };
 var changeInstantAnswersSetting = function () {
@@ -314,19 +318,30 @@ var initSettings = function () {
     else {
         setCalendarProviderSettings(0);
     }
+    var calendarProviderSetting = document.getElementById("calendar-providers");
+    var timeElement = document.getElementById("calendar-link");
+    if (timeElement !== null) {
+        timeElement.href = calendarProviderSetting.value;
+    }
 };
-var setSettingsPaneDisplayStyle = function (style) {
+var setSettingsPaneDisplayStyle = function (shown) {
     var settingsContainerId = "settings-pane";
+    var shownClass = "active";
     var settingsPane = document.getElementById(settingsContainerId);
     if (settingsPane !== undefined && settingsPane !== null) {
-        settingsPane.style.display = style;
+        if (settingsPane.classList.contains(shownClass)) {
+            settingsPane.classList.remove(shownClass);
+        }
+        else {
+            settingsPane.classList.add(shownClass);
+        }
     }
 };
 var openSettings = function () {
-    setSettingsPaneDisplayStyle("block");
+    setSettingsPaneDisplayStyle(true);
 };
 var closeSettings = function () {
-    setSettingsPaneDisplayStyle("none");
+    setSettingsPaneDisplayStyle(false);
 };
 // async & event processes
 var updateTime = function () {

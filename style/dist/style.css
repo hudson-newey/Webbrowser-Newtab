@@ -100,6 +100,10 @@ input[type=text]:focus {
   background-color: rgba(120, 120, 120, 0.3);
 }
 
+input[type=checkbox] {
+  accent-color: #ff6961;
+}
+
 #search-box {
   height: 40px;
   width: 90%;
@@ -124,13 +128,17 @@ input[type=text]:focus {
   left: 20px;
   top: 20px;
   width: fit-content;
+  width: fit-content;
 }
-.time-container > #time {
+.time-container > #calendar-link {
+  text-decoration: none;
+}
+.time-container > #calendar-link > #time {
   color: #777;
   font-size: 2.5rem;
   font-family: Arial, Helvetica, sans-serif;
 }
-.time-container > #time:hover {
+.time-container > #calendar-link > #time:hover {
   transition: all 0.15s ease;
   color: white;
   cursor: pointer;
@@ -257,7 +265,6 @@ input[type=text]:focus {
 }
 
 .settings-pane {
-  display: none;
   position: absolute;
   left: 70%;
   top: 0px;
@@ -268,15 +275,20 @@ input[type=text]:focus {
   padding-top: 10px;
   border-left: rgba(120, 120, 120, 0.1);
   border-left-style: solid;
-  animation: flyIn 0.5s ease-out;
+  transition: transform 0.5s ease-out;
+  transform: translateX(200%);
 }
 .settings-pane > .close-btn {
   position: absolute;
-  top: 25px;
-  right: 25px;
+  right: 1rem;
+  top: 1rem;
 }
 .settings-pane .setting {
   margin-top: 40px;
+}
+
+.active {
+  transform: translateX(0%);
 }
 
 .settings-dropdown {
@@ -315,6 +327,7 @@ input[type=text]:focus {
   top: calc(50% - 100px);
   width: 45%;
   transform: translate(-50%, -50%);
+  font-size: 32px;
 }
 
 .divider {
@@ -346,28 +359,5 @@ input[type=text]:focus {
 
   .settings-icon {
     display: none;
-  }
-}
-@keyframes fallAway {
-  0% {
-    transform: rotateZ(0deg);
-    top: 0;
-    opacity: 1;
-  }
-  25% {
-    transform: rotateZ(-15deg);
-  }
-  100% {
-    top: 300px;
-    transform: rotateZ(-5deg);
-    opacity: 0;
-  }
-}
-@keyframes flyIn {
-  0% {
-    transform: translateX(200%);
-  }
-  100% {
-    transform: translateX(0%);
   }
 }

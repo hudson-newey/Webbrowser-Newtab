@@ -127,6 +127,11 @@ const changeCalendarProvider = (): void => {
       CALENDAR_PROVIDER_COOKIE_NAME,
       calendarProviderSetting.selectedIndex.toString()
     );
+
+    const timeElement: any = document.getElementById("calendar-link");
+    if (timeElement !== null) {
+      timeElement.href = calendarProviderSetting.value;
+    }
   }
 };
 
@@ -405,23 +410,38 @@ const initSettings = (): void => {
   } else {
     setCalendarProviderSettings(0);
   }
+
+  const calendarProviderSetting = document.getElementById(
+    "calendar-providers"
+  ) as HTMLSelectElement;
+
+  const timeElement: any = document.getElementById("calendar-link");
+  if (timeElement !== null) {
+    timeElement.href = calendarProviderSetting.value;
+  }
 };
 
-const setSettingsPaneDisplayStyle = (style: string): void => {
+const setSettingsPaneDisplayStyle = (shown: boolean): void => {
   const settingsContainerId = "settings-pane";
+  const shownClass = "active";
+
   const settingsPane = document.getElementById(settingsContainerId);
 
   if (settingsPane !== undefined && settingsPane !== null) {
-    settingsPane.style.display = style;
+    if (settingsPane.classList.contains(shownClass)) {
+      settingsPane.classList.remove(shownClass);
+    } else {
+      settingsPane.classList.add(shownClass);
+    }
   }
 };
 
 let openSettings = (): void => {
-  setSettingsPaneDisplayStyle("block");
+  setSettingsPaneDisplayStyle(true);
 };
 
 let closeSettings = (): void => {
-  setSettingsPaneDisplayStyle("none");
+  setSettingsPaneDisplayStyle(false);
 };
 
 // async & event processes

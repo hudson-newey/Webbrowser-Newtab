@@ -24,10 +24,9 @@
   <body>
     <div id="gradient" class="background">
       <div class="time-container">
-        <time
-          id="time"
-          onclick="document.location.href=document.getElementById('calendar-providers').value"
-        ></time>
+        <a id="calendar-link" href="#">
+          <time id="time"></time>
+        </a>
       </div>
 
       <div class="content">
@@ -41,8 +40,7 @@
           autofocus
         />
 
-        <div id="search-history">
-        </div>
+        <div id="search-history"></div>
 
         <p id="instant-answer-box"></p>
       </div>
@@ -50,7 +48,7 @@
       <div id="card-container" class="favs container"></div>
 
       <div class="corner">
-        <a href="#settings" class="settings-icon" onclick="openSettings();">
+        <a href="#" class="settings-icon" onclick="openSettings();">
           <i class="fa fa-sliders"></i>
         </a>
       </div>
@@ -62,9 +60,12 @@
         <div class="divider"></div>
 
         <div class="setting">
-          <strong>Search Engine</strong><br />
+          <label for="search-engines">
+            <strong>Search Engine</strong> </label
+          ><br />
           <select
             id="search-engines"
+            name="search-engines"
             class="settings-dropdown"
             onchange="changeSearchEngine();"
           >
@@ -81,9 +82,12 @@
         </div>
 
         <div class="setting">
-          <strong>Calendar Provider</strong><br />
+          <label for="calendar-providers">
+            <strong>Calendar Provider</strong> </label
+          ><br />
           <select
             id="calendar-providers"
+            name="calendar-providers"
             class="settings-dropdown"
             onchange="changeCalendarProvider();"
           >
@@ -102,22 +106,31 @@
         </div>
 
         <div class="setting">
-          <strong>Background Image Url</strong>
-          <p>(empty for gradient)</p>
+          <label for="background-image-input">
+            <strong>Background Image URL</strong>
+            <p>(empty for gradient)</p>
+          </label>
 
-          <input id="background-image-input" type="text">
+          <input
+            id="background-image-input"
+            name="background-image-input"
+            type="url"
+          />
           <button onclick="updateBackground()">Update</button>
         </div>
 
         <div class="setting">
           <input
             id="show-instant-answers-setting"
+            name="show-instant-answers-setting"
             type="checkbox"
             class="checkbox"
             onchange="changeInstantAnswersSetting();"
             checked
           />
-          <strong>Show Instant Answers</strong>
+          <label for="show-instant-answers-setting">
+            <strong>Show Instant Answers</strong>
+          </label>
         </div>
       </div>
 
@@ -146,6 +159,7 @@
         charset="utf-8"
       ></script>
       <script src="./script/dist/script.js"></script>
+      <script src="./script/dist/top-sites.js"></script>
       <script src="./script/dist/search.js"></script>
       <script src="./script/dist/draggable.js"></script>
     </footer>

@@ -120,6 +120,10 @@ input[type="text"] {
   }
 }
 
+input[type=checkbox] {
+  accent-color: $accent-color;
+}
+
 #search-box {
   height: 40px;
   width: 90%;
@@ -144,16 +148,21 @@ input[type="text"] {
   left: 20px;
   top: 20px;
   width: fit-content;
+  width: fit-content;
+  
+  & > #calendar-link {
+    text-decoration: none;
 
-  & > #time {
-    color: $dimmed-font-color;
-    font-size: $font-size;
-    font-family: $font-family;
-
-    &:hover {
-      transition: $animation;
-      color: $font-color;
-      cursor: pointer;
+    & > #time {
+      color: $dimmed-font-color;
+      font-size: $font-size;
+      font-family: $font-family;
+  
+      &:hover {
+        transition: $animation;
+        color: $font-color;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -273,8 +282,6 @@ input[type="text"] {
   }
 }
 
-
-
 .corner {
   position: absolute;
   top: 20px;
@@ -294,7 +301,6 @@ input[type="text"] {
 }
 
 .settings-pane {
-  display: none;
   position: absolute;
   left: 70%;
   top: 0px;
@@ -305,17 +311,22 @@ input[type="text"] {
   padding-top: 10px;
   border-left: $card-background;
   border-left-style: solid;
-  animation: flyIn 0.5s ease-out;
+  transition: transform 0.5s ease-out;
+  transform: translateX(200%);
 
   & > .close-btn {
     position: absolute;
-    top: 25px;
-    right: 25px;
+    right: 1rem;
+    top: 1rem;
   }
 
   .setting {
     margin-top: 40px;
   }
+}
+
+.active {
+  transform: translateX(0%);
 }
 
 .settings-dropdown {
@@ -356,6 +367,7 @@ input[type="text"] {
     top: calc(50% - 100px);
     width: 45%;
     transform: translate(-50%, -50%);
+    font-size: 32px;
   }
 }
 
@@ -390,30 +402,5 @@ input[type="text"] {
 
   .settings-icon {
     display: none;
-  }
-}
-
-@keyframes fallAway {
-  0% {
-    transform: rotateZ(0deg);
-    top: 0;
-    opacity: 1;
-  }
-  25% {
-    transform: rotateZ(-15deg);
-  }
-  100% {
-    top: 300px;
-    transform: rotateZ(-5deg);
-    opacity: 0;
-  }
-}
-
-@keyframes flyIn {
-  0% {
-    transform: translateX(200%);
-  }
-  100% {
-    transform: translateX(0%);
   }
 }
