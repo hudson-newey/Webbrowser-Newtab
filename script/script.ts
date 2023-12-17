@@ -44,6 +44,10 @@ const getCookie = (cname: string): string | undefined => {
   return undefined;
 };
 
+const removeCookie = (cookieName: string): void => {
+  document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+};
+
 const doesExist = (value: any): boolean =>
   value !== undefined && value !== null;
 
@@ -240,12 +244,12 @@ const deleteCard = (id: number, cardURL: string): void => {
       if (currentCards !== undefined) {
         let newCards = currentCards;
 
-        SUPPORTED_PROTOCOLS.forEach((protocol) => {
+        [...SUPPORTED_PROTOCOLS, ""].forEach((protocol) => {
           const scanningContent = `${protocol}${cardURL}`;
           newCards = newCards.replace(`,${scanningContent}`, "");
-          newCards = newCards.replace(scanningContent, "");
         });
 
+        removeCookie(CARD_COOKIE_NAME);
         setCookie(CARD_COOKIE_NAME, newCards);
       }
     }

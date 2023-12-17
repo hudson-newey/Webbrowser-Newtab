@@ -1,3 +1,10 @@
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 // globals
 var CARD_COOKIE_NAME = "cards";
 var INSTANT_ANSWERS_COOKIE_NAME = "ia-setting";
@@ -35,6 +42,9 @@ var getCookie = function (cname) {
         }
     }
     return undefined;
+};
+var removeCookie = function (cookieName) {
+    document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 };
 var doesExist = function (value) {
     return value !== undefined && value !== null;
@@ -180,11 +190,11 @@ var deleteCard = function (id, cardURL) {
             var currentCards = getCookie(CARD_COOKIE_NAME);
             if (currentCards !== undefined) {
                 var newCards_1 = currentCards;
-                SUPPORTED_PROTOCOLS.forEach(function (protocol) {
+                __spreadArrays(SUPPORTED_PROTOCOLS, [""]).forEach(function (protocol) {
                     var scanningContent = "" + protocol + cardURL;
                     newCards_1 = newCards_1.replace("," + scanningContent, "");
-                    newCards_1 = newCards_1.replace(scanningContent, "");
                 });
+                removeCookie(CARD_COOKIE_NAME);
                 setCookie(CARD_COOKIE_NAME, newCards_1);
             }
         }
