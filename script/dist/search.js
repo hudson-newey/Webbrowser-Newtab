@@ -18,6 +18,10 @@ var getHistory = function () {
 };
 var searchHistory = function (searchTerm) {
     searchTerm = searchTerm.trim().toLowerCase();
+    if (searchTerm === undefined || searchTerm === null || searchTerm === "") {
+        clearHistory();
+        return [];
+    }
     return searchHistorySpan
         .filter(function (item) { return item.includes(searchTerm); })
         .filter(function (item, index, self) { return self.indexOf(item) === index; })

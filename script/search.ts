@@ -21,6 +21,11 @@ const getHistory = (): void => {
 
 const searchHistory = (searchTerm: string): string[] => {
   searchTerm = searchTerm.trim().toLowerCase();
+
+  if (searchTerm === undefined || searchTerm === null || searchTerm === "") {
+    clearHistory();
+    return [];
+  }
   
   return searchHistorySpan
     .filter((item) => item.includes(searchTerm))
