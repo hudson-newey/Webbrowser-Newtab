@@ -6,6 +6,8 @@ const searchHistorySpan: string[] = [];
 const maxHistoryItems = 5;
 
 const addToSearchHistory = (searchTerm: string) => {
+  searchTerm = searchTerm.trim().toLowerCase();
+
   if (!searchHistoryQueries.includes(searchTerm)) {
     searchHistoryQueries.push(searchTerm);
     localStorage.setItem(searchHistoryKey, searchHistoryQueries.join("|"));
@@ -18,6 +20,8 @@ const getHistory = (): void => {
 };
 
 const searchHistory = (searchTerm: string): string[] => {
+  searchTerm = searchTerm.trim().toLowerCase();
+  
   return searchHistorySpan
     .filter((item) => item.includes(searchTerm))
     .filter((item, index, self) => self.indexOf(item) === index)
