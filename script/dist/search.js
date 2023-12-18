@@ -6,6 +6,7 @@ var searchHistoryQueries = ((_a = localStorage.getItem(searchHistoryKey)) === nu
 var searchHistorySpan = [];
 var maxHistoryItems = 5;
 var addToSearchHistory = function (searchTerm) {
+    searchTerm = searchTerm.trim().toLowerCase();
     if (!searchHistoryQueries.includes(searchTerm)) {
         searchHistoryQueries.push(searchTerm);
         localStorage.setItem(searchHistoryKey, searchHistoryQueries.join("|"));
@@ -16,6 +17,7 @@ var getHistory = function () {
     searchHistorySpan.push.apply(searchHistorySpan, commonWebsites);
 };
 var searchHistory = function (searchTerm) {
+    searchTerm = searchTerm.trim().toLowerCase();
     return searchHistorySpan
         .filter(function (item) { return item.includes(searchTerm); })
         .filter(function (item, index, self) { return self.indexOf(item) === index; })
