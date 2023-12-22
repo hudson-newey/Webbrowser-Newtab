@@ -55,16 +55,19 @@ button {
   position: relative;
   text-align: start;
   padding-left: 1rem;
-  margin-left: 2rem;
   margin-top: 0px;
   padding-top: 1px;
-  width: calc(100% - 5rem);
+  width: 90%;
+  max-width: 55rem;
+  left: 50%;
+  transform: translateX(-50%);
 
   border-top: none;
   background-color: $card-background;
   border-radius: $curve-amount;
 
   & > p {
+    position: relative;
     padding: 0.8rem;
     margin: 0px;
     border-radius: $curve-amount;
@@ -127,6 +130,7 @@ input[type=checkbox] {
 #search-box {
   height: 40px;
   width: 90%;
+  max-width: 55rem;
   font-size: 38px;
 }
 
@@ -138,9 +142,9 @@ input[type=checkbox] {
 .content {
   margin: auto;
   position: relative;
-  width: 50%;
+  width: 80%;
   text-align: center;
-  top: 300px;
+  top: 30%;
 }
 
 .time-container {
@@ -186,7 +190,7 @@ input[type=checkbox] {
 .favs {
   position: relative;
   margin: auto;
-  top: 300px;
+  top: calc(30% + 20px);
   color: $font-color;
   width: 80%;
   text-align: center;
@@ -388,7 +392,7 @@ input[type=checkbox] {
 
   .favs {
     position: relative;
-    top: 150px !important;
+    top: 100px !important;
 
     & > .fav {
       width: 38px !important;
