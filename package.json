@@ -1,0 +1,14 @@
+{
+  "name": "Newtab",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "author": "hudson-newey",
+  "devDependencies": {
+    "vite": "^5.2.7",
+    "vite-plugin-singlefile": "^2.0.1"
+  }
+}

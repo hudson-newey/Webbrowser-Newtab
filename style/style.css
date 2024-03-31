@@ -1,42 +1,44 @@
-$background-color: black;
-$font-color: white;
-$dimmed-font-color: #777;
-$card-background: rgba(120, 120, 120, 0.1);
-$card-background-focused: rgba($card-background, 0.3);
-$tray-background-color: rgba(30, 30, 30);
-$accent-color: #ff6961;
-$transparent-accent-color: rgba($accent-color, 0.15);
-$curve-amount: 0.5rem;
-$animation: all 0.15s ease;
-$font-size: 2.5rem;
-$font-family: Arial, Helvetica, sans-serif;
+:root {
+	--background-color: black;
+	--font-color: white;
+	--dimmed-font-color: #777;
+	--card-background: rgba(120, 120, 120, 0.1);
+	--card-background-focused: rgba(var(--card-background), 0.3);
+	--tray-background-color: rgba(30, 30, 30);
+	--accent-color: #ff6961;
+	--transparent-accent-color: rgba(var(--accent-color), 0.15);
+	--curve-amount: 0.5rem;
+	--animation: all 0.15s ease;
+	--font-size: 2.5rem;
+	--font-family: Arial, Helvetica, sans-serif;
+}
 
 html {
   position: relative;
-  background-color: $background-color;
+  background-color: var(--background-color);
   background-size: contain;
   height: 100%;
   width: 100%;
   overflow: hidden;
 
   & > * {
-    color: $font-color;
+    color: var(--font-color);
     font-family: Arial, Helvetica, sans-serif;
   }
 }
 
 body {
-  background-color: $background-color;
+  background-color: var(--background-color);
   overflow: hidden;
 }
 
 button {
-  color: $font-color;
-  background-color: $card-background;
-  border-radius: $curve-amount;
+  color: var(--font-color);
+  background-color: var(--card-background);
+  border-radius: var(--curve-amount);
   border-style: none;
   border-width: 1px;
-  font-size: $font-size / 2.5;
+  font-size: calc(var(--font-size) / 2.5);
   padding: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -44,9 +46,9 @@ button {
   margin: 1px;
 
   &:hover {
-    background-color: $card-background-focused;
+    background-color: var(--card-background-focused);
     border-style: solid;
-    border-color: $accent-color;
+    border-color: var(--accent-color);
     margin: 0px;
   }
 }
@@ -63,24 +65,24 @@ button {
   transform: translateX(-50%);
 
   border-top: none;
-  background-color: $card-background;
-  border-radius: $curve-amount;
+  background-color: var(--card-background);
+  border-radius: var(--curve-amount);
 
   & > p {
     position: relative;
     padding: 0.8rem;
     margin: 0px;
-    border-radius: $curve-amount;
+    border-radius: var(--curve-amount);
 
     &:hover {
       cursor: pointer;
-      color: $accent-color;
-      background-color: $card-background-focused;
+      color: var(--accent-color);
+      background-color: var(--card-background-focused);
     }
   }
 
   &:has(p) {
-    border: 1px solid $card-background-focused;
+    border: 1px solid var(--card-background-focused);
   }
 }
 
@@ -106,25 +108,25 @@ button {
 input[type="url"],
 input[type="text"] {
   position: relative;
-  border-radius: $curve-amount;
-  color: $font-color;
+  border-radius: var(--curve-amount);
+  color: var(--font-color);
   
-  font-family: $font-family;
+  font-family: var(--font-family);
   padding: 1rem;
   border-width: 2px;
-  border-color: $card-background-focused;
-  background-color: $card-background;
+  border-color: var(--card-background-focused);
+  background-color: var(--card-background);
   font-weight: lighter;
   outline: none;
   content: "";
 
   &:focus {
-    background-color: $card-background-focused;
+    background-color: var(--card-background-focused);
   }
 }
 
 input[type=checkbox] {
-  accent-color: $accent-color;
+  accent-color: var(--accent-color);
 }
 
 #search-box {
@@ -136,7 +138,7 @@ input[type=checkbox] {
 
 #background-image-input {
   width: 60%;
-  font-size: $font-size / 2.5;
+  font-size: calc(var(--font-size) / 2.5);
 }
 
 .content {
@@ -158,13 +160,13 @@ input[type=checkbox] {
     text-decoration: none;
 
     & > #time {
-      color: $dimmed-font-color;
-      font-size: $font-size;
-      font-family: $font-family;
+      color: var(--dimmed-font-color);
+      font-size: var(--font-size);
+      font-family: var(--font-family);
   
       &:hover {
-        transition: $animation;
-        color: $font-color;
+        transition: var(--animation);
+        color: var(--font-color);
         cursor: pointer;
       }
     }
@@ -174,7 +176,7 @@ input[type=checkbox] {
 #instant-answer-box {
   position: relative;
   font-size: 1.2em;
-  color: $font-color;
+  color: var(--font-color);
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   left: 0% !important;
@@ -191,16 +193,16 @@ input[type=checkbox] {
   position: relative;
   margin: auto;
   top: calc(30% + 20px);
-  color: $font-color;
+  color: var(font-color);
   width: 80%;
   text-align: center;
 
   & > .fav {
     display: inline-block;
-    color: $font-color;
+    color: var(--font-color);
     padding: 1em;
     font-size: 20pt;
-    background-color: $card-background;
+    background-color: var(--card-background);
     padding-bottom: 3em;
     padding: 1em;
     margin: 10px;
@@ -210,16 +212,16 @@ input[type=checkbox] {
       "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
     text-decoration: none;
     transform: scale(1);
-    transition: $animation;
-    border-radius: $curve-amount;
+    transition: var(--animation);
+    border-radius: var(--curve-amount);
 
     &:hover {
       transform: scale(1.1);
       border-style: solid;
-      border-color: $accent-color;
-      background-color: $card-background-focused;
+      border-color: var(--accent-color);
+      background-color: var(--card-background-focused);
       border-width: 4px;
-      border-radius: $curve-amount * 2;
+      border-radius: calc(var(--curve-amount) * 2);
       cursor: pointer;
 
       .removeCardButton {
@@ -227,7 +229,7 @@ input[type=checkbox] {
         padding: 5px;
         padding-left: 8px;
         padding-right: 8px;
-        border-radius: $curve-amount;
+        border-radius: var(--curve-amount);
       }
     }
 
@@ -266,21 +268,21 @@ input[type=checkbox] {
     cursor: pointer;
 
     &:hover {
-      background-color: $card-background-focused;
+      background-color: var(--card-background-focused);
       border-style: solid;
-      border-color: $card-background;
+      border-color: var(--card-background);
       border-width: 2px;
       margin: 0px;
     }
   }
 }
 
-// dragging event (added by draggable.ts)
+/* dragging event (added by draggable.ts) */
 .dragging {
-  background-color: $transparent-accent-color !important;
+  background-color: var(--transparent-accent-color) !important;
   scale: 1.22;
 
-  // the remove button should be hidden if the user is dragging the card
+  /* the remove button should be hidden if the user is dragging the card */
   .removeCardButton {
     display: none !important;
   }
@@ -294,13 +296,13 @@ input[type=checkbox] {
 
 .settings-icon {
   position: a;
-  color: $dimmed-font-color;
-  font-size: $font-size / 1.8;
+  color: var(--dimmed-font-color);
+  font-size: calc(var(--font-size) / 1.8);
   text-decoration: none;
-  transition: $animation;
+  transition: var(--animation);
 
   &:hover {
-    color: $font-color;
+    color: var(--font-color);
   }
 }
 
@@ -310,10 +312,10 @@ input[type=checkbox] {
   top: 0px;
   height: 95%;
   width: calc(25% + 15px);
-  background-color: $tray-background-color;
+  background-color: var(--tray-background-color);
   padding: 40px;
   padding-top: 10px;
-  border-left: $card-background;
+  border-left: var(--card-background);
   border-left-style: solid;
   transition: transform 0.5s ease-out;
   transform: translateX(200%);
@@ -336,16 +338,16 @@ input[type=checkbox] {
 .settings-dropdown {
   position: relative;
   margin-top: 15px;
-  color: $font-color;
-  font-size: $font-size / 2;
-  background-color: $card-background;
-  border-color: $card-background-focused;
-  border-radius: $curve-amount;
-  padding: $curve-amount / 2;
+  color: var(--font-color);
+  font-size: calc(var(--font-size) / 2);
+  background-color: var(--card-background);
+  border-color: var(--card-background-focused);
+  border-radius: var(--curve-amount);
+  padding: calc(var(--curve-amount) / 2);
 
   &:focus {
-    border-color: $accent-color;
-    background-color: $background-color;
+    border-color: var(--accent-color);
+    background-color: var(--background-color);
   }
 }
 
@@ -354,7 +356,7 @@ input[type=checkbox] {
   position: absolute;
   top: 0px;
   left: 0px;
-  background-color: $tray-background-color;
+  background-color: var(--tray-background-color);
   width: 100%;
   height: 100%;
 
@@ -377,13 +379,13 @@ input[type=checkbox] {
 
 .divider {
   position: relative;
-  border-color: $card-background-focused;
+  border-color: var(--card-background-focused);
   border-width: 1px;
   border-style: solid;
   width: 100%;
 }
 
-// when on mobile
+/* when on mobile */
 @media only screen and (max-width: 600px) {
   .content {
     top: 80px !important;
