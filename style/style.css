@@ -3,7 +3,7 @@
 	--font-color: white;
 	--dimmed-font-color: #777;
 	--card-background: rgba(120, 120, 120, 0.1);
-	--card-background-focused: rgba(var(--card-background), 0.3);
+	--card-background-focused: rgba(120, 120, 120, 0.3);
 	--tray-background-color: rgba(30, 30, 30);
 	--accent-color: #ff6961;
 	--transparent-accent-color: rgba(var(--accent-color), 0.15);
@@ -84,6 +84,10 @@ button {
   &:has(p) {
     border: 1px solid var(--card-background-focused);
   }
+}
+
+#gradient {
+  position: absolute;
 }
 
 .background {
