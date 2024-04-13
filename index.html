@@ -33,7 +33,6 @@
           id="search-box"
           class="form-control p-3"
           type="text"
-          onkeyup="shouldSearch(event)"
           placeholder="Search the web..."
           autocomplete="off"
           autofocus
@@ -47,14 +46,14 @@
       <div id="card-container" class="favs container"></div>
 
       <div class="corner">
-        <a href="#" class="settings-icon" onclick="openSettings()">
+        <a id="settings-toggle-btn" href="#" class="settings-icon">
           <i class="fa fa-sliders"></i>
         </a>
       </div>
 
       <div id="settings-pane" class="settings-pane">
         <h2>Settings</h2>
-        <button class="close-btn" onclick="closeSettings()">Close</button>
+        <button id="close-settings-btn" class="close-btn">Close</button>
 
         <div class="divider"></div>
 
@@ -66,7 +65,6 @@
             id="search-engines"
             name="search-engines"
             class="settings-dropdown"
-            onchange="changeSearchEngine()"
           >
             <option value="https://www.google.com/search?q=" selected>
               Google
@@ -88,7 +86,6 @@
             id="calendar-providers"
             name="calendar-providers"
             class="settings-dropdown"
-            onchange="changeCalendarProvider()"
           >
             <option value="https://calendar.google.com" selected>
               Google Calendar
@@ -115,7 +112,7 @@
             name="background-image-input"
             type="url"
           />
-          <button onclick="updateBackground()">Update</button>
+          <button id="update-background-btn">Update</button>
         </div>
 
         <div class="setting">
@@ -124,7 +121,6 @@
             name="show-instant-answers-setting"
             type="checkbox"
             class="checkbox"
-            onchange="changeInstantAnswersSetting()"
             checked
           />
           <label for="show-instant-answers-setting">
@@ -138,14 +134,13 @@
           id="new-card-url-input"
           type="url"
           placeholder="Add URL to create cards"
-          onkeyup="shouldAddNewCardFromInput(event);"
         />
 
         <div class="action-buttons">
-          <button class="btn--large" onclick="getAndAddCardFromInput()">
+          <button id="add-card-btn" class="btn--large">
             Add Card
           </button>
-          <button class="btn--large" onclick="hideCardInput()">Cancel</button>
+          <button id="hide-card-input-btn" class="btn--large">Cancel</button>
         </div>
       </div>
     </div>
