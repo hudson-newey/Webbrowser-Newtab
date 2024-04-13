@@ -17,6 +17,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
     />
+    <script type="module" src="./script/main.ts"></script>
   </head>
 
   <body>
@@ -32,7 +33,7 @@
           id="search-box"
           class="form-control p-3"
           type="text"
-          onkeyup="shouldSearch(event);"
+          onkeyup="shouldSearch(event)"
           placeholder="Search the web..."
           autocomplete="off"
           autofocus
@@ -46,14 +47,14 @@
       <div id="card-container" class="favs container"></div>
 
       <div class="corner">
-        <a href="#" class="settings-icon" onclick="openSettings();">
+        <a href="#" class="settings-icon" onclick="openSettings()">
           <i class="fa fa-sliders"></i>
         </a>
       </div>
 
       <div id="settings-pane" class="settings-pane">
         <h2>Settings</h2>
-        <button class="close-btn" onclick="closeSettings();">Close</button>
+        <button class="close-btn" onclick="closeSettings()">Close</button>
 
         <div class="divider"></div>
 
@@ -65,7 +66,7 @@
             id="search-engines"
             name="search-engines"
             class="settings-dropdown"
-            onchange="changeSearchEngine();"
+            onchange="changeSearchEngine()"
           >
             <option value="https://www.google.com/search?q=" selected>
               Google
@@ -87,7 +88,7 @@
             id="calendar-providers"
             name="calendar-providers"
             class="settings-dropdown"
-            onchange="changeCalendarProvider();"
+            onchange="changeCalendarProvider()"
           >
             <option value="https://calendar.google.com" selected>
               Google Calendar
@@ -123,7 +124,7 @@
             name="show-instant-answers-setting"
             type="checkbox"
             class="checkbox"
-            onchange="changeInstantAnswersSetting();"
+            onchange="changeInstantAnswersSetting()"
             checked
           />
           <label for="show-instant-answers-setting">
@@ -141,20 +142,12 @@
         />
 
         <div class="action-buttons">
-          <button class="btn--large" onclick="getAndAddCardFromInput();">
+          <button class="btn--large" onclick="getAndAddCardFromInput()">
             Add Card
           </button>
-          <button class="btn--large" onclick="hideCardInput();">Cancel</button>
+          <button class="btn--large" onclick="hideCardInput()">Cancel</button>
         </div>
       </div>
     </div>
-
-    <footer>
-      <script src="./script/script.ts"></script>
-      <script src="./script/top-sites.ts"></script>
-      <script src="./script/search.ts"></script>
-      <script src="./script/draggable.ts"></script>
-      <script src="./script/gradient.ts"></script>
-    </footer>
   </body>
 </html>

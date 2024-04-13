@@ -1,4 +1,4 @@
-const commonWebsites: string[] = [
+export const commonWebsites: string[] = [
   "https://www.google.com",
   "https://www.youtube.com",
   "https://www.facebook.com",

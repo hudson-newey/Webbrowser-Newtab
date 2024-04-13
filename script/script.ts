@@ -1,13 +1,15 @@
+import { addToSearchHistory, clearHistory } from "./search";
+
 // globals
-const CARD_COOKIE_NAME = "cards";
-const INSTANT_ANSWERS_COOKIE_NAME = "ia-setting";
-const SEARCH_ENGINE_COOKIE_NAME = "search-engine-setting";
-const CALENDAR_PROVIDER_COOKIE_NAME = "calendar-provider-setting";
+export const CARD_COOKIE_NAME = "cards";
+export const INSTANT_ANSWERS_COOKIE_NAME = "ia-setting";
+export const SEARCH_ENGINE_COOKIE_NAME = "search-engine-setting";
+export const CALENDAR_PROVIDER_COOKIE_NAME = "calendar-provider-setting";
 
-const KNOWN_TLDS = [".com", ".net", ".gov", ".org", ".eud"];
+export const KNOWN_TLDS = [".com", ".net", ".gov", ".org", ".eud"];
 
-const DEFAULT_PROTOCOL = "https://";
-const SUPPORTED_PROTOCOLS = [
+export const DEFAULT_PROTOCOL = "https://";
+export const SUPPORTED_PROTOCOLS = [
   "https://",
   "http://",
   "ftp://",
@@ -16,22 +18,23 @@ const SUPPORTED_PROTOCOLS = [
   "#",
 ];
 
-// helper functions
-const setCookie = (
+// helper export functions
+export function setCookie(
   cookieName: string,
   cookieContent: string,
   exDays: number = 365
-): void => {
+) {
   const dateObject = new Date();
   dateObject.setTime(dateObject.getTime() + exDays * 24 * 60 * 60 * 1000);
   let expires = dateObject.toUTCString();
   document.cookie = `${cookieName}=${cookieContent};expires=${expires};path=/`;
-};
+}
 
-const getCookie = (cname: string): string | undefined => {
+export function getCookie(cname: string): string | undefined {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
   let ca = decodedCookie.split(";");
+
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
     while (c.charAt(0) == " ") {
@@ -41,18 +44,20 @@ const getCookie = (cname: string): string | undefined => {
       return c.substring(name.length, c.length);
     }
   }
+
   return undefined;
-};
+}
 
-const removeCookie = (cookieName: string): void => {
+export function removeCookie(cookieName: string) {
   document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-};
+}
 
-const doesExist = (value: any): boolean =>
-  value !== undefined && value !== null;
+export function doesExist(value: any) {
+  return value !== undefined && value !== null;
+}
 
-// search functionality
-const search = (): void => {
+// search export functionality
+export function search() {
   const searchTerm: string | null = (
     document.getElementById("search-box") as HTMLInputElement
   )?.value;
@@ -83,9 +88,9 @@ const search = (): void => {
       document.location.href = constructSearchQuery(searchTerm);
     }
   }
-};
+}
 
-const constructSearchQuery = (searchTerm: string): string => {
+export function constructSearchQuery(searchTerm: string) {
   const defaultSearchEngine = "https://www.google.com/search?q=";
   const searchEngineSettingId = "search-engines";
 
@@ -98,9 +103,9 @@ const constructSearchQuery = (searchTerm: string): string => {
   }
 
   return defaultSearchEngine + searchTerm;
-};
+}
 
-const changeSearchEngine = (): void => {
+export function changeSearchEngine(): void {
   const searchEngineSettingId = "search-engines";
 
   const searchEngineSetting = document.getElementById(
@@ -113,9 +118,9 @@ const changeSearchEngine = (): void => {
       searchEngineSetting.selectedIndex.toString()
     );
   }
-};
+}
 
-const changeCalendarProvider = (): void => {
+export function changeCalendarProvider(): void {
   const calendarProviderSettingId = "calendar-providers";
 
   const calendarProviderSetting = document.getElementById(
@@ -133,9 +138,9 @@ const changeCalendarProvider = (): void => {
       timeElement.href = calendarProviderSetting.value;
     }
   }
-};
+}
 
-const changeInstantAnswersSetting = (): void => {
+export function changeInstantAnswersSetting(): void {
   const instantAnswersSettingId = "show-instant-answers-setting";
 
   const instantAnswersSettingBox = document.getElementById(
@@ -148,9 +153,9 @@ const changeInstantAnswersSetting = (): void => {
       instantAnswersSettingBox.checked ? "1" : "0"
     );
   }
-};
+}
 
-const shouldSearch = (event: KeyboardEvent): void => {
+export function shouldSearch(event: KeyboardEvent): void {
   const key = event.keyCode || event.which;
   if (key === 13) {
     search();
@@ -163,9 +168,8 @@ const shouldSearch = (event: KeyboardEvent): void => {
 
     // the user did not press enter
     // we should therefore query the DuckDuckgo API for an instant answer
-    const inputVal = (document.getElementById(
-      "search-box"
-    ) as HTMLInputElement).value;
+    const inputVal = (document.getElementById("search-box") as HTMLInputElement)
+      .value;
 
     if (inputVal) {
       queryInstantAnswer();
@@ -173,18 +177,18 @@ const shouldSearch = (event: KeyboardEvent): void => {
       clearHistory();
     }
   }
-};
+}
 
-const shouldAddNewCardFromInput = (event: KeyboardEvent): void => {
+export function shouldAddNewCardFromInput(event: KeyboardEvent): void {
   const key = event.keyCode || event.which;
 
   // the user pressed enter
   if (key === 13) {
     getAndAddCardFromInput();
   }
-};
+}
 
-const getAndAddCardFromInput = (): void => {
+export function getAndAddCardFromInput(): void {
   const newCardUrlInput = document.getElementById(
     "new-card-url-input"
   ) as HTMLInputElement;
@@ -198,10 +202,10 @@ const getAndAddCardFromInput = (): void => {
       addCard(newCardUrlInput.value);
     }
   }
-};
+}
 
 // user defined cards
-const addCard = (newCardURL: string): void => {
+export function addCard(newCardURL: string): void {
   // check that the URL is valid
   let foundSupportedProtocol: boolean = false;
   SUPPORTED_PROTOCOLS.forEach((protocol) => {
@@ -235,9 +239,9 @@ const addCard = (newCardURL: string): void => {
 
   setCookie(CARD_COOKIE_NAME, `${existingCards},${newCardURL}`);
   window.location.reload();
-};
+}
 
-const deleteCard = (id: number, cardURL: string): void => {
+export function deleteCard(id: number, cardURL: string): void {
   if (doesExist(id)) {
     const cardObj = document.getElementById(`${id}`);
     if (cardObj !== null) {
@@ -259,14 +263,14 @@ const deleteCard = (id: number, cardURL: string): void => {
       }
     }
   }
-};
+}
 
-const createCard = (
+export function createCard(
   cardURL: string,
   img: string | undefined = undefined,
-  eventFunction: any = undefined,
+  eventfunction: any = undefined,
   canRemove: boolean = true
-): void => {
+): any {
   const uniqueId = Math.random() * 1000;
 
   let faviconURL = "";
@@ -295,9 +299,9 @@ const createCard = (
     newCardLink.href = cardURL;
   }
 
-  if (doesExist(eventFunction)) {
+  if (doesExist(eventfunction)) {
     newCardObj.onclick = function () {
-      eventFunction();
+      eventfunction();
     };
   }
 
@@ -327,9 +331,9 @@ const createCard = (
   newCardObj.appendChild(newCardLink);
   if (canRemove) newCardObj.appendChild(removeButton);
   document.getElementById("card-container")?.appendChild(newCardObj);
-};
+}
 
-const createCards = (): void => {
+export function createCards(): void {
   const historicalCards = getCookie(CARD_COOKIE_NAME);
   const cards = historicalCards?.split(",");
 
@@ -348,9 +352,9 @@ const createCards = (): void => {
     () => showCardInput(),
     false
   );
-};
+}
 
-const setInstantAnswersSettingCheckbox = (value: boolean): void => {
+export function setInstantAnswersSettingCheckbox(value: boolean): void {
   const instantAnswersSettingId = "show-instant-answers-setting";
 
   const instantAnswersBox = document.getElementById(
@@ -360,9 +364,9 @@ const setInstantAnswersSettingCheckbox = (value: boolean): void => {
   if (doesExist(instantAnswersBox)) {
     instantAnswersBox.checked = value;
   }
-};
+}
 
-const setSearchEngineSettings = (index: number): void => {
+export function setSearchEngineSettings(index: number): void {
   const searchEngineSettingId = "search-engines";
 
   const searchEngineSetting = document.getElementById(
@@ -372,9 +376,9 @@ const setSearchEngineSettings = (index: number): void => {
   if (doesExist(searchEngineSetting)) {
     searchEngineSetting.selectedIndex = index;
   }
-};
+}
 
-const setCalendarProviderSettings = (index: number): void => {
+export function setCalendarProviderSettings(index: number): void {
   const calendarProviderSettingId = "calendar-providers";
 
   const calendarProviderSetting = document.getElementById(
@@ -384,10 +388,10 @@ const setCalendarProviderSettings = (index: number): void => {
   if (doesExist(calendarProviderSetting)) {
     calendarProviderSetting.selectedIndex = index;
   }
-};
+}
 
 // saves the user settings through cookies
-const initSettings = (): void => {
+export function initSettings(): void {
   // instant answers settings
   if (getCookie(INSTANT_ANSWERS_COOKIE_NAME) === "0") {
     setInstantAnswersSettingCheckbox(false);
@@ -419,9 +423,9 @@ const initSettings = (): void => {
   if (timeElement !== null) {
     timeElement.href = calendarProviderSetting.value;
   }
-};
+}
 
-const setSettingsPaneDisplayStyle = (shown: boolean): void => {
+export function setSettingsPaneDisplayStyle(shown: boolean): void {
   const settingsContainerId = "settings-pane";
   const shownClass = "active";
 
@@ -434,19 +438,19 @@ const setSettingsPaneDisplayStyle = (shown: boolean): void => {
       settingsPane.classList.add(shownClass);
     }
   }
-};
+}
 
-let openSettings = (): void => {
+export function openSettings(): void {
   setSettingsPaneDisplayStyle(true);
-};
+}
 
-let closeSettings = (): void => {
+export function closeSettings(): void {
   setSettingsPaneDisplayStyle(false);
-};
+}
 
 // async & event processes
 
-const updateTime = (): void => {
+export function updateTime(): void {
   let timeElement: HTMLElement | null = document.getElementById("time");
   if (timeElement !== null) {
     const dateObject = new Date();
@@ -467,9 +471,9 @@ const updateTime = (): void => {
 
     timeElement.innerHTML = `${hour}:${minute}`;
   }
-};
+}
 
-const shouldShowInstantAnswers = (): boolean => {
+export function shouldShowInstantAnswers(): boolean {
   const defaultReturnValue = true;
   const settingId = "show-instant-answers-setting";
 
@@ -480,10 +484,10 @@ const shouldShowInstantAnswers = (): boolean => {
   }
 
   return defaultReturnValue;
-};
+}
 
 // instant answers logic
-const queryInstantAnswer = (): void => {
+export function queryInstantAnswer(): void {
   if (!shouldShowInstantAnswers()) {
     return;
   }
@@ -529,17 +533,17 @@ const queryInstantAnswer = (): void => {
         }
       });
   }
-};
+}
 
-const removeInstantAnswer = (): void => {
+export function removeInstantAnswer(): void {
   const instantAnswersBox = document.getElementById("instant-answer-box");
 
   if (instantAnswersBox !== undefined && instantAnswersBox !== null) {
     instantAnswersBox.innerText = "";
   }
-};
+}
 
-const updateCardInputDisplay = (newValue: string): void => {
+export function updateCardInputDisplay(newValue: string): void {
   const commandPallet = document.getElementById("command-pallet-container");
 
   if (commandPallet !== undefined && commandPallet !== null) {
@@ -553,17 +557,17 @@ const updateCardInputDisplay = (newValue: string): void => {
   if (newCardUrlInput !== undefined && newCardUrlInput !== null) {
     newCardUrlInput.value = "";
   }
-};
+}
 
-const hideCardInput = (): void => {
+export function hideCardInput(): void {
   updateCardInputDisplay("none");
-};
+}
 
-const showCardInput = (): void => {
+export function showCardInput(): void {
   updateCardInputDisplay("block");
-};
+}
 
-const updateBackground = (): void => {
+export function updateBackground(): void {
   const inputElement: HTMLInputElement | null = document.getElementById(
     "background-image-input"
   ) as HTMLInputElement;
@@ -577,9 +581,9 @@ const updateBackground = (): void => {
 
   updateBackgroundElements();
   window.location.reload();
-};
+}
 
-const updateBackgroundElements = (): void => {
+export function updateBackgroundElements(): void {
   const value = localStorage.getItem("background-image");
 
   if (value) {
@@ -595,10 +599,10 @@ const updateBackgroundElements = (): void => {
     backgroundElement.id = "background-image";
     backgroundElement.style.backgroundImage = `url(${value})`;
   }
-};
+}
 
 // gradient logic
-const init = (): void => {
+export function init(): void {
   const currentDate = new Date().toISOString().slice(0, 10);
   const titleElement: HTMLElement | null =
     document.getElementById("main-title");
@@ -613,11 +617,11 @@ const init = (): void => {
   updateBackgroundElements();
 
   loop();
-};
+}
 
-const loop = (): void => {
+export function loop(): void {
   updateTime();
   setTimeout(loop, 1000);
-};
+}
 
 init();

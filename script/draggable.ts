@@ -1,5 +1,7 @@
-const draggableItems: NodeListOf<HTMLElement> = document.querySelectorAll(".draggable");
-const containers = document.querySelectorAll(".container");
+import { CARD_COOKIE_NAME, getCookie, removeCookie, setCookie } from "./script";
+
+export const draggableItems: NodeListOf<HTMLElement> = document.querySelectorAll(".draggable");
+export const containers = document.querySelectorAll(".container");
 
 draggableItems.forEach((container: HTMLElement) => {
   container.addEventListener("dragstart", () => {
@@ -55,7 +57,7 @@ draggableItems.forEach((container: HTMLElement) => {
   });
 });
 
-function getDragAfterElement(container: any, x: number) {
+export function getDragAfterElement(container: any, x: number) {
   const draggableElements = [
     ...container.querySelectorAll(".draggable:not(.dragging)"),
   ];
